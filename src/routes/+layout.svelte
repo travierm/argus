@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import { FolderGit, GitPullRequest, Settings } from '@lucide/svelte';
+	import { FolderGit, GitPullRequest, LayoutDashboard, Settings } from '@lucide/svelte';
 
 	let { children } = $props();
 </script>
@@ -44,8 +44,8 @@
 	<div class="drawer-side">
 		<label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay"></label>
 		<ul class="menu min-h-full w-50 bg-base-200 p-4">
-			<!-- Sidebar content here -->
-			<li><a><FolderGit class="icon-sm" /> Repositories</a></li>
+			<li><a href="/"><LayoutDashboard class="icon-sm" /> Dashboard</a></li>
+			<li><a href="/repos"><FolderGit class="icon-sm" /> Repos</a></li>
 			<li><a><GitPullRequest class="icon-sm" />Pull Requests</a></li>
 			<li><a><Settings class="icon-sm" /> Settings</a></li>
 		</ul>
