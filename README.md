@@ -1,7 +1,6 @@
 <div align="center">
+  <img style="width: 300px; max-height: 50px;" src="./images/banner.png" alt="Argus Logo" />
   <h1>Argus</h1>
-  <img style="width: 250px; max-height: 50px;" src="./images/logo.png" alt="Argus Logo">
-
   <p><em>Local hosted code reviews</em></p>
 </div>
 
