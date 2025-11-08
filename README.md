@@ -1,4 +1,4 @@
-# Argus
+# argus
 
 Local hosted code review platform.
 
