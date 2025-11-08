@@ -1,6 +1,9 @@
-# Argus
+<div align="center">
+  <h1>Argus</h1>
+  <img style="width: 100px; max-height: 100px;" src="./images/logo.png" alt="Argus Logo">
 
-Local hosted code reviews
+  <p><em>Local hosted code reviews</em></p>
+</div>
 
 ## Created Using
 
