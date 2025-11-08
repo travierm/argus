@@ -1,0 +1,6 @@
+- see local repos the users want to review branches on
+   - use a local config file for now ( we can switch to sqlite later )
+- let user see list of repos and then list of branches for that repos
+   - user can trigger fetches
+- user can setup claude api code ( gets stored encrypted locally )
+- user can trigger code reviews for branches
