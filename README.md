@@ -1,7 +1,7 @@
 <div>
   <img style="width: 300px; max-height: 50px;" src="./images/banner.png" alt="Argus Logo" />
   <h1>Argus</h1>
-  <p><em>Local hosted code reviews</em></p>
+  <p>Locally hosted AI code reviews.</p>
 </div>
 
 ## Developing
