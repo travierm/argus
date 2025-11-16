@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import { FolderGit, GitPullRequest, LayoutDashboard, Settings } from '@lucide/svelte';
+	import { FolderGit, GitPullRequest, LayoutDashboard, Settings, FileDiff } from '@lucide/svelte';
 
 	let { children } = $props();
 </script>
@@ -47,8 +47,8 @@
 			<li><a href="/"><LayoutDashboard class="icon-sm" /> Dashboard</a></li>
 			<li><a href="/review"><GitPullRequest class="icon-sm" />Review Code</a></li>
 			<li><a href="/repos"><FolderGit class="icon-sm" /> Repos</a></li>
-
-			<li><a><Settings class="icon-sm" /> Settings</a></li>
+			<li><a href="/pulls/diff"><FileDiff class="icon-sm" />Diff View</a></li>
+			<li><a href="/settings"><Settings class="icon-sm" /> Settings</a></li>
 		</ul>
 	</div>
 </div>
