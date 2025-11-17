@@ -12,6 +12,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
+		"lint:fix": "prettier --write . && eslint . --fix",
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run",
 		"db:migrate": "bun run src/lib/db/scripts/migrate.ts",
@@ -53,6 +54,7 @@
 	"dependencies": {
 		"@lucide/svelte": "^0.553.0",
 		"@tanstack/svelte-virtual": "^3.13.12",
+		"highlight.js": "^11.11.1",
 		"shiki": "^3.15.0"
 	}
 }

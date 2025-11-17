@@ -8,8 +8,8 @@ const config = {
 	preprocess: vitePreprocess(),
 	kit: { adapter: adapter() },
 	compilerOptions: {
-		runes: true,
-	},
+		runes: true
+	}
 };
 
 export default config;

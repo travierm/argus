@@ -1,18 +1,24 @@
 <script lang="ts">
-	import diffString from '$lib/assets/large.diff?raw';
+	import diffString from '$lib/assets/large.diff?raw'; // SWAP THIS WITH YOUR DIFF FILE
 	import parseDiff, { type DiffInfo } from '$lib/diffParser';
 	import { createVirtualizer } from '@tanstack/svelte-virtual';
 	import { onMount, onDestroy } from 'svelte';
+	import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 	import FileHeader from './FileHeader.svelte';
 	import HunkDisplay from './HunkDisplay.svelte';
+	import VirtualizedFileContent from './VirtualizedFileContent.svelte';
 	import ShikiService from '$lib/shikiService';
+
+	const LARGE_FILE_THRESHOLD = 2000;
 
 	let diffs = $state<DiffInfo[]>([]);
 	let isLoading = $state(true);
 	let parseTime = $state(0);
 	let shikiReady = $state(false);
-	let highlightedContent = $state<Map<number, Map<number, Map<number, string>>>>(new Map());
-	let highlightingQueue = $state<Set<number>>(new Set());
+	let highlightedContent = $derived(
+		new SvelteMap<number, SvelteMap<number, SvelteMap<number, string>>>()
+	);
+	let highlightingQueue = $derived(new SvelteSet<number>());
 
 	const shiki = ShikiService.getInstance();
 
@@ -21,7 +27,7 @@
 		diffs = parseDiff.parse(diffString);
 		parseTime = performance.now() - startTime;
 
-		expandedFiles = new Set(diffs.map((_, i) => i));
+		diffs.map((_, i) => expandedFiles.add(i));
 
 		isLoading = false;
 
@@ -47,17 +53,17 @@
 
 		highlightingQueue.add(fileIdx);
 
-		const fileExt = diff.newFileExt || diff.oldFileExt || 'txt';
-		const fileMap = new Map<number, Map<number, string>>();
+		const fileExt = diff.type === 'delete' ? diff.oldFileExt : diff.newFileExt || 'txt';
+		const fileMap = new SvelteMap<number, SvelteMap<number, string>>();
 
 		for (let hunkIdx = 0; hunkIdx < diff.hunks.length; hunkIdx++) {
 			const hunk = diff.hunks[hunkIdx];
-			const hunkMap = new Map<number, string>();
+			const hunkMap = new SvelteMap<number, string>();
 
 			for (let changeIdx = 0; changeIdx < hunk.changes.length; changeIdx++) {
 				const change = hunk.changes[changeIdx];
 				try {
-					const highlighted = shiki.highlight(change.content, fileExt);
+					const highlighted = await shiki.highlight(change.content, fileExt);
 					hunkMap.set(changeIdx, highlighted);
 				} catch (error) {
 					console.error('Error highlighting line:', error);
@@ -67,16 +73,12 @@
 			fileMap.set(hunkIdx, hunkMap);
 		}
 
-		const newContent = new Map(highlightedContent);
-		newContent.set(fileIdx, fileMap);
-		highlightedContent = newContent;
+		highlightedContent.set(fileIdx, fileMap);
 
-		const newQueue = highlightingQueue;
 		highlightingQueue.delete(fileIdx);
-		highlightingQueue = newQueue;
 	}
 
-	let expandedFiles = $state<Set<number>>(new Set());
+	const expandedFiles = $derived(new SvelteSet<number>());
 	let scrollElement: HTMLDivElement | undefined = $state();
 	let virtualItemEls: HTMLElement[] = $state([]);
 
@@ -93,6 +95,12 @@
 
 						if (!isExpanded || diff.isBinary) {
 							return headerSize;
+						}
+
+						// Large files use virtualized content with max height of 800px
+						if (diff.totalLines > LARGE_FILE_THRESHOLD) {
+							const contentHeight = Math.min(800, diff.hunks.length * 33 + diff.totalLines * 24);
+							return headerSize + contentHeight;
 						}
 
 						//  HunkHeader (33 per hunk) + ChangeRow (24 per change)
@@ -121,13 +129,11 @@
 	});
 
 	function toggleFile(index: number) {
-		const newExpanded = new Set(expandedFiles);
-		if (newExpanded.has(index)) {
-			newExpanded.delete(index);
+		if (expandedFiles.has(index)) {
+			expandedFiles.delete(index);
 		} else {
-			newExpanded.add(index);
+			expandedFiles.add(index);
 		}
-		expandedFiles = newExpanded;
 	}
 
 	function getTotalChanges(fileIndex: number): { additions: number; deletions: number } {
@@ -175,9 +181,9 @@
 			<button
 				onclick={() => {
 					if (expandedFiles.size === diffs.length) {
-						expandedFiles = new Set();
+						expandedFiles.clear();
 					} else {
-						expandedFiles = new Set(diffs.map((_, i) => i));
+						diffs.map((_, i) => expandedFiles.add(i));
 					}
 				}}
 				class="rounded border border-[#30363d] bg-[#21262d] px-3 py-1 text-xs transition-colors hover:bg-[#30363d]"
@@ -198,7 +204,7 @@
 		</div>
 	{:else if virtualizer && $virtualizer}
 		<div class="relative w-full" style="height: {$virtualizer.getTotalSize()}px;">
-			{#each items as virtualItem}
+			{#each items as virtualItem (virtualItem.key)}
 				{@const diff = diffs[virtualItem.index]}
 				{@const isExpanded = expandedFiles.has(virtualItem.index)}
 				{@const stats = getTotalChanges(virtualItem.index)}
@@ -220,14 +226,22 @@
 						/>
 
 						{#if isExpanded && !diff.isBinary}
-							<div class="bg-[#0d1117]">
-								{#each diff.hunks as hunk, hunkIdx}
-									<HunkDisplay
-										{hunk}
-										highlightedLines={highlightedContent.get(virtualItem.index)?.get(hunkIdx)}
-									/>
-								{/each}
-							</div>
+							{#if diff.totalLines > LARGE_FILE_THRESHOLD}
+								<VirtualizedFileContent
+									{diff}
+									highlightedContent={highlightedContent.get(virtualItem.index)}
+								/>
+							{:else}
+								<div class="bg-[#0d1117]">
+									{#each diff.hunks as hunk, hunkIdx (virtualItem.key + '-' + hunkIdx)}
+										<HunkDisplay
+											{hunk}
+											parentKey={virtualItem.key + '-' + hunkIdx}
+											highlightedLines={highlightedContent.get(virtualItem.index)?.get(hunkIdx)}
+										/>
+									{/each}
+								</div>
+							{/if}
 						{/if}
 					</div>
 				</div>
