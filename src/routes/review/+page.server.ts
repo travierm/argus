@@ -1,7 +1,7 @@
 import { getRepoByName } from '$lib/data/repos';
 import { getBranchDiff } from '$lib/server/actions/LocalGit';
 import { LOCAL_REPOS } from '../../config/repos';
-import type { Actions, PageServerLoad } from './diff/$types';
+import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
 	return {
