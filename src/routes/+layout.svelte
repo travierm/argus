@@ -45,8 +45,9 @@
 		<label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay"></label>
 		<ul class="menu min-h-full w-50 bg-base-200 p-4">
 			<li><a href="/"><LayoutDashboard class="icon-sm" /> Dashboard</a></li>
+			<li><a href="/review"><GitPullRequest class="icon-sm" />Review Code</a></li>
 			<li><a href="/repos"><FolderGit class="icon-sm" /> Repos</a></li>
-			<li><a><GitPullRequest class="icon-sm" />Pull Requests</a></li>
+
 			<li><a><Settings class="icon-sm" /> Settings</a></li>
 		</ul>
 	</div>

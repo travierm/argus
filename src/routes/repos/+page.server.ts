@@ -1,4 +1,4 @@
-import { LOCAL_REPOS, type LocalRepo } from '../../config/repos';
+import { LOCAL_REPOS } from '../../config/repos';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
