@@ -2,8 +2,10 @@
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import { FolderGit, GitPullRequest, LayoutDashboard, Settings, FileDiff } from '@lucide/svelte';
-
+	import { page } from '$app/state';
 	let { children } = $props();
+
+	const currentPath = $derived(page.url.pathname);
 </script>
 
 <svelte:head>
@@ -35,7 +37,7 @@
 		</div>
 
 		<!-- Page content -->
-		<div class="flex-1 p-4">
+		<div class="flex-1 {!currentPath.includes('/diff') ? 'p-4' : ''}">
 			{@render children()}
 		</div>
 	</div>

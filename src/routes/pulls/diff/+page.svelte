@@ -7,6 +7,7 @@
 	import FileHeader from './FileHeader.svelte';
 	import HunkDisplay from './HunkDisplay.svelte';
 	import VirtualizedFileContent from './VirtualizedFileContent.svelte';
+	import FileExplorer from './FileExplorer/FileExplorer.svelte';
 	import ShikiService from '$lib/shikiService';
 
 	const LARGE_FILE_THRESHOLD = 2000;
@@ -140,112 +141,130 @@
 		const diff = diffs[fileIndex];
 		return { additions: diff.additions, deletions: diff.deletions };
 	}
+
+	function scrollToFile(fileIndex: number) {
+		if (!virtualizer || !$virtualizer) return;
+
+		// Ensure the file is expanded
+		if (!expandedFiles.has(fileIndex)) {
+			expandedFiles.add(fileIndex);
+		}
+
+		// Scroll to the file
+		$virtualizer.scrollToIndex(fileIndex, {
+			align: 'start',
+			behavior: 'smooth'
+		});
+	}
 </script>
 
 <svelte:head>
 	<style>
 		body {
-			margin: 0;
-			padding: 0;
-			font-family:
-				-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 			background: #0d1117;
-			color: #c9d1d9;
-		}
-
-		@keyframes spin {
-			to {
-				transform: rotate(360deg);
-			}
 		}
 	</style>
 </svelte:head>
 
-<div
-	class="sticky top-0 z-10 flex items-center justify-between border-b border-[#30363d] bg-[#0d1117] p-5"
->
-	<h1 class="m-0 text-2xl text-[#f0f6fc]">Diff Viewer</h1>
-	<div class="flex items-center gap-4 text-sm text-[#8b949e]">
-		{#if !isLoading}
-			<span>{diffs.length} file{diffs.length !== 1 ? 's' : ''} changed</span>
-			{#if parseTime > 0}
-				<span class="text-xs text-[#6e7681]">• Parsed in {parseTime.toFixed(0)}ms</span>
-			{/if}
-			{#if shikiReady && highlightingQueue.size > 0}
-				<span class="text-xs text-[#f0883e]"
-					>• Highlighting {highlightingQueue.size} file{highlightingQueue.size !== 1
-						? 's'
-						: ''}...</span
-				>
-			{/if}
-			<button
-				onclick={() => {
-					if (expandedFiles.size === diffs.length) {
-						expandedFiles.clear();
-					} else {
-						diffs.map((_, i) => expandedFiles.add(i));
-					}
-				}}
-				class="rounded border border-[#30363d] bg-[#21262d] px-3 py-1 text-xs transition-colors hover:bg-[#30363d]"
-			>
-				{expandedFiles.size === diffs.length ? 'Collapse All' : 'Expand All'}
-			</button>
-		{/if}
-	</div>
-</div>
-
-<div class="h-[calc(100vh-109px)] overflow-auto p-5" bind:this={scrollElement}>
-	{#if isLoading}
-		<div class="flex h-full flex-col items-center justify-center gap-5">
-			<div
-				class="h-10 w-10 animate-spin rounded-full border-[3px] border-[#30363d] border-t-[#58a6ff]"
-			></div>
-			<p class="text-sm text-[#8b949e]">Parsing diff in background...</p>
-		</div>
-	{:else if virtualizer && $virtualizer}
-		<div class="relative w-full" style="height: {$virtualizer.getTotalSize()}px;">
-			{#each items as virtualItem (virtualItem.key)}
-				{@const diff = diffs[virtualItem.index]}
-				{@const isExpanded = expandedFiles.has(virtualItem.index)}
-				{@const stats = getTotalChanges(virtualItem.index)}
-
-				<div
-					class="pb-4 will-change-transform"
-					style="position: absolute; top: 0; left: 0; width: 100%; transform: translateY({virtualItem.start}px);"
-					data-index={virtualItem.index}
-					bind:this={virtualItemEls[virtualItem.index]}
-				>
-					<div
-						class="overflow-hidden rounded-md border border-[#30363d] bg-[#161b22] contain-[layout_style_paint]"
+<div class="flex h-screen flex-col">
+	<!-- Header -->
+	<div
+		class="sticky top-0 z-10 flex items-center justify-between border-b border-[#30363d] bg-[#0d1117] p-5"
+	>
+		<h1 class="m-0 text-2xl text-[#f0f6fc]">Diff Viewer</h1>
+		<div class="flex items-center gap-4 text-sm text-[#8b949e]">
+			{#if !isLoading}
+				<span>{diffs.length} file{diffs.length !== 1 ? 's' : ''} changed</span>
+				{#if parseTime > 0}
+					<span class="text-xs text-[#6e7681]">• Parsed in {parseTime.toFixed(0)}ms</span>
+				{/if}
+				{#if shikiReady && highlightingQueue.size > 0}
+					<span class="text-xs text-[#f0883e]"
+						>• Highlighting {highlightingQueue.size} file{highlightingQueue.size !== 1
+							? 's'
+							: ''}...</span
 					>
-						<FileHeader
-							{diff}
-							{isExpanded}
-							{stats}
-							onToggle={() => toggleFile(virtualItem.index)}
-						/>
-
-						{#if isExpanded && !diff.isBinary}
-							{#if diff.totalLines > LARGE_FILE_THRESHOLD}
-								<VirtualizedFileContent
-									{diff}
-									highlightedContent={highlightedContent.get(virtualItem.index)}
-								/>
-							{:else}
-								<div class="bg-[#0d1117]">
-									{#each diff.hunks as hunk, hunkIdx (virtualItem.key + '-' + hunkIdx)}
-										<HunkDisplay
-											{hunk}
-											parentKey={virtualItem.key + '-' + hunkIdx}
-											highlightedLines={highlightedContent.get(virtualItem.index)?.get(hunkIdx)}
-										/>
-									{/each}
-								</div>
-							{/if}
-						{/if}
-					</div>
-				</div>
-			{/each}
+				{/if}
+				<button
+					onclick={() => {
+						if (expandedFiles.size === diffs.length) {
+							expandedFiles.clear();
+						} else {
+							diffs.map((_, i) => expandedFiles.add(i));
+						}
+					}}
+					class="rounded border border-[#30363d] bg-[#21262d] px-3 py-1 text-xs transition-colors hover:bg-[#30363d]"
+				>
+					{expandedFiles.size === diffs.length ? 'Collapse All' : 'Expand All'}
+				</button>
+			{/if}
 		</div>
-	{/if}
+	</div>
+
+	<!-- Main Content: File Explorer + Diff View -->
+	<div class="flex flex-1 overflow-hidden">
+		<!-- File Explorer Sidebar -->
+		{#if !isLoading}
+			<div class="w-80 shrink-0">
+				<FileExplorer {diffs} onFileClick={scrollToFile} />
+			</div>
+		{/if}
+
+		<!-- Diff Content -->
+		<div class="flex-1 overflow-auto p-5" bind:this={scrollElement}>
+			{#if isLoading}
+				<div class="flex h-full flex-col items-center justify-center gap-5">
+					<div
+						class="h-10 w-10 animate-spin rounded-full border-[3px] border-[#30363d] border-t-[#58a6ff]"
+					></div>
+					<p class="text-sm text-[#8b949e]">Parsing diff in background...</p>
+				</div>
+			{:else if virtualizer && $virtualizer}
+				<div class="relative w-full" style="height: {$virtualizer.getTotalSize()}px;">
+					{#each items as virtualItem (virtualItem.key)}
+						{@const diff = diffs[virtualItem.index]}
+						{@const isExpanded = expandedFiles.has(virtualItem.index)}
+						{@const stats = getTotalChanges(virtualItem.index)}
+
+						<div
+							class="pb-4 will-change-transform"
+							style="position: absolute; top: 0; left: 0; width: 100%; transform: translateY({virtualItem.start}px);"
+							data-index={virtualItem.index}
+							bind:this={virtualItemEls[virtualItem.index]}
+						>
+							<div
+								class="overflow-hidden rounded-md border border-[#30363d] bg-[#161b22] contain-[layout_style_paint]"
+							>
+								<FileHeader
+									{diff}
+									{isExpanded}
+									{stats}
+									onToggle={() => toggleFile(virtualItem.index)}
+								/>
+
+								{#if isExpanded && !diff.isBinary}
+									{#if diff.totalLines > LARGE_FILE_THRESHOLD}
+										<VirtualizedFileContent
+											{diff}
+											highlightedContent={highlightedContent.get(virtualItem.index)}
+										/>
+									{:else}
+										<div class="bg-[#0d1117]">
+											{#each diff.hunks as hunk, hunkIdx (virtualItem.key + '-' + hunkIdx)}
+												<HunkDisplay
+													{hunk}
+													parentKey={virtualItem.key + '-' + hunkIdx}
+													highlightedLines={highlightedContent.get(virtualItem.index)?.get(hunkIdx)}
+												/>
+											{/each}
+										</div>
+									{/if}
+								{/if}
+							</div>
+						</div>
+					{/each}
+				</div>
+			{/if}
+		</div>
+	</div>
 </div>

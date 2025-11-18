@@ -57,6 +57,7 @@ interface DiffInfo {
 	isBinary?: boolean;
 	newFileExt?: string;
 	oldFileExt?: string;
+	name?: string;
 }
 
 const STAT_START = 2;
@@ -126,6 +127,8 @@ function computeFileStats(info: DiffInfo): void {
 	info.totalLines = totalLines;
 	info.newFileExt = info.newPath?.split('.').pop()?.toLowerCase() || '';
 	info.oldFileExt = info.oldPath?.split('.').pop()?.toLowerCase() || '';
+	info.name =
+		info.type === 'delete' ? info.oldPath?.split('/').pop() : info.newPath?.split('/').pop();
 }
 
 // Pre-compiled regex for better performance
@@ -381,7 +384,15 @@ const parser = {
 			computeFileStats(currentInfo);
 		}
 
-		return infos;
+		// Sort by path
+		return infos.sort((a, b) => {
+			const aPath = a.type === 'delete' ? a.oldPath : a.newPath;
+			const bPath = b.type === 'delete' ? b.oldPath : b.newPath;
+			if (aPath && bPath) {
+				return aPath.localeCompare(bPath);
+			}
+			return 0;
+		});
 	}
 };
 

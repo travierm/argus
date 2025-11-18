@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { DiffInfo } from '$lib/diffParser';
-	import { getFileTypeLabel, getFileTypeColor } from './diffViewerUtils';
+	import { ChevronDown } from '@lucide/svelte';
+	import { getFileTypeLabel, getDiffTypeColor, getFilePath } from './diffViewerUtils';
 
 	interface Props {
 		diff: DiffInfo;
@@ -16,15 +17,15 @@
 	class="flex w-full cursor-pointer items-center gap-3 border-b border-none
            border-[#30363d] bg-[#161b22] px-4 py-3 text-left transition-colors duration-150
            hover:bg-[#1c2128]"
-	style="border-left: 4px solid {getFileTypeColor(diff.type)}"
+	style="border-left: 4px solid {getDiffTypeColor(diff.type)}"
 	onclick={onToggle}
 	type="button"
 >
 	<span
 		class="inline-block w-4 shrink-0 text-[10px] text-[#8b949e]
-             transition-transform duration-200 {isExpanded ? 'rotate-90' : ''}"
+             transition-transform duration-200 {!isExpanded ? '-rotate-90' : ''}"
 	>
-		▶
+		<ChevronDown size={16} class="text-[#8b949e]" />
 	</span>
 
 	<div class="flex min-w-0 flex-1 items-center gap-3">
@@ -36,17 +37,13 @@
 				<span class="text-red-500 line-through">{diff.oldPath}</span>
 				<span class="mx-1 text-[#8b949e]">→</span>
 				<span class="text-green-500">{diff.newPath}</span>
-			{:else if diff.type === 'add'}
-				{diff.newPath}
-			{:else if diff.type === 'delete'}
-				{diff.oldPath}
 			{:else}
-				{diff.newPath || diff.oldPath}
+				{getFilePath(diff)}
 			{/if}
 		</span>
 		<span
 			class="shrink-0 rounded-xl px-2 py-0.5 text-[11px] font-semibold text-white uppercase"
-			style="background: {getFileTypeColor(diff.type)}"
+			style="background: {getDiffTypeColor(diff.type)}"
 		>
 			{getFileTypeLabel(diff.type)}
 		</span>
