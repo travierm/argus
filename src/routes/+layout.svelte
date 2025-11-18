@@ -37,7 +37,7 @@
 		</div>
 
 		<!-- Page content -->
-		<div class="flex-1 {!currentPath.includes('/diff') ? 'p-4' : ''}">
+		<div class="flex-1 {!currentPath.includes('/review') ? 'p-4' : ''}">
 			{@render children()}
 		</div>
 	</div>
@@ -49,7 +49,6 @@
 			<li><a href="/"><LayoutDashboard class="icon-sm" /> Dashboard</a></li>
 			<li><a href="/review"><GitPullRequest class="icon-sm" />Review Code</a></li>
 			<li><a href="/repos"><FolderGit class="icon-sm" /> Repos</a></li>
-			<li><a href="/pulls/diff"><FileDiff class="icon-sm" />Diff View</a></li>
 			<li><a href="/settings"><Settings class="icon-sm" /> Settings</a></li>
 		</ul>
 	</div>

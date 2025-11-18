@@ -73,7 +73,9 @@
 			/>
 		</div>
 
-		<div class="mt-2 overflow-hidden text-xs text-[#6e7681] text-nowrap whitespace-nowrap text-ellipsis">
+		<div
+			class="mt-2 overflow-hidden text-xs text-nowrap text-ellipsis whitespace-nowrap text-[#6e7681]"
+		>
 			{filteredFiles.length}
 			{filteredFiles.length === 1 ? 'file' : 'files'}
 			{#if searchQuery.trim()}
