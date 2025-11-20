@@ -20,11 +20,8 @@ export async function getBranches(path: string) {
 }
 
 export async function getBranchDiff(path: string, source: string, target: string) {
-	const proc = Bun.spawn(
-		['git', 'diff', source + '...' + target, '--stat', '--color', '--unified=3'],
-		{
-			cwd: path
-		}
-	);
-	return await proc.stdout.text();
+	const proc = Bun.spawn(['git', 'diff', source + '...' + target, '--unified=3'], {
+		cwd: path
+	});
+	return (await proc.stdout.text()) as unknown as string;
 }

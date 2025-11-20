@@ -1,9 +1,11 @@
 <script lang="ts">
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import { FolderGit, GitPullRequest, LayoutDashboard, Settings } from '@lucide/svelte';
-
+	import { FolderGit, GitPullRequest, LayoutDashboard, Settings, FileDiff } from '@lucide/svelte';
+	import { page } from '$app/state';
 	let { children } = $props();
+
+	const currentPath = $derived(page.url.pathname);
 </script>
 
 <svelte:head>
@@ -35,7 +37,7 @@
 		</div>
 
 		<!-- Page content -->
-		<div class="flex-1 p-4">
+		<div class="flex-1 {!currentPath.includes('/review') ? 'p-4' : ''}">
 			{@render children()}
 		</div>
 	</div>
@@ -47,8 +49,7 @@
 			<li><a href="/"><LayoutDashboard class="icon-sm" /> Dashboard</a></li>
 			<li><a href="/review"><GitPullRequest class="icon-sm" />Review Code</a></li>
 			<li><a href="/repos"><FolderGit class="icon-sm" /> Repos</a></li>
-
-			<li><a><Settings class="icon-sm" /> Settings</a></li>
+			<li><a href="/settings"><Settings class="icon-sm" /> Settings</a></li>
 		</ul>
 	</div>
 </div>
