@@ -403,3 +403,172 @@
 		</div>
 	{/if}
 </div>
+	>
+		<div class="flex items-center justify-between">
+			<BranchReviewForm
+				repos={data.repos}
+				initialRepo={form?.repo || ''}
+				initialBranch={form?.branch || ''}
+				action={isDebugMode ? '?/getDiff&debug' : '?/getDiff'}
+			/>
+			<div class="flex items-center gap-4 pt-4 text-sm text-[#8b949e]">
+				{#if !isLoading}
+					<span>{diffs.length} file{diffs.length !== 1 ? 's' : ''} changed</span>
+					<button
+						onclick={() => {
+							if (expandedFiles.size === diffs.length) {
+								expandedFiles.clear();
+							} else {
+								const filesToHighlight: number[] = [];
+								diffs.forEach((_, i) => {
+									if (!expandedFiles.has(i)) {
+										expandedFiles.add(i);
+										filesToHighlight.push(i);
+									}
+								});
+								// Schedule highlighting after state update
+								setTimeout(() => {
+									filesToHighlight.forEach((i) => highlightFile(i));
+								}, 0);
+							}
+						}}
+						class="rounded border border-[#30363d] bg-[#21262d] px-3 py-1 text-xs transition-colors hover:bg-[#30363d]"
+					>
+						{expandedFiles.size === diffs.length ? 'Collapse All' : 'Expand All'}
+					</button>
+				{/if}
+			</div>
+		</div>
+
+		<!-- Review Form -->
+	</div>
+
+	<!-- Main Content: File Explorer + Diff View -->
+	<div class="flex flex-1 overflow-hidden">
+		<!-- File Explorer Sidebar -->
+		{#if diffs.length > 0}
+			<div class="w-80 shrink-0">
+				<FileExplorer {diffs} onFileClick={scrollToFile} />
+			</div>
+		{/if}
+
+		<!-- Diff Content -->
+		<div class="flex-1 overflow-auto p-5" bind:this={scrollElement}>
+			{#if isLoading}
+				<div class="flex h-full flex-col items-center justify-center gap-5">
+					<div
+						class="h-10 w-10 animate-spin rounded-full border-[3px] border-[#30363d] border-t-[#58a6ff]"
+					></div>
+					<p class="text-sm text-[#8b949e]">Parsing diff in background...</p>
+				</div>
+			{:else if diffs.length === 0}
+				<div class="flex h-full flex-col items-center justify-center gap-5">
+					<p class="text-lg text-[#8b949e]">Select a repository and branch to view the diff</p>
+				</div>
+			{:else if virtualizer && $virtualizer}
+				<div class="relative w-full" style="height: {$virtualizer.getTotalSize()}px;">
+					{#each items as virtualItem (virtualItem.key)}
+						{@const diff = diffs[virtualItem.index]}
+						{@const isExpanded = expandedFiles.has(virtualItem.index)}
+						{@const stats = getTotalChanges(virtualItem.index)}
+
+						<div
+							class="pb-4 will-change-transform"
+							style="position: absolute; top: 0; left: 0; width: 100%; transform: translateY({virtualItem.start}px);"
+							data-index={virtualItem.index}
+							bind:this={virtualItemEls[virtualItem.index]}
+						>
+							<div
+								class="overflow-hidden rounded-md border border-[#30363d] bg-[#161b22] contain-[layout_style_paint]"
+							>
+								<FileHeader
+									{diff}
+									{isExpanded}
+									{stats}
+									onToggle={() => toggleFile(virtualItem.index)}
+								/>
+
+								{#if isExpanded && !diff.isBinary}
+									{#if diff.totalLines > LARGE_FILE_THRESHOLD}
+										<VirtualizedFileContent
+											{diff}
+											highlightedContent={highlightedContent.get(virtualItem.index)}
+										/>
+									{:else}
+										<div class="bg-[#0d1117]">
+											{#each diff.hunks as hunk, hunkIdx (virtualItem.key + '-' + hunkIdx)}
+												<HunkDisplay
+													{hunk}
+													parentKey={virtualItem.key + '-' + hunkIdx}
+													highlightedLines={highlightedContent.get(virtualItem.index)?.get(hunkIdx)}
+												/>
+											{/each}
+										</div>
+									{/if}
+								{/if}
+							</div>
+						</div>
+					{/each}
+				</div>
+			{/if}
+		</div>
+	</div>
+
+	<!-- Debug Performance Banner -->
+	{#if isDebugMode}
+		<div
+			class="fixed right-0 bottom-0 left-0 z-50 border-t border-[#30363d] bg-[#161b22] px-4 py-3 shadow-lg"
+		>
+			<div class="flex items-center justify-between">
+				<div class="flex items-center gap-6 text-sm">
+					<span class="font-semibold text-[#58a6ff]">Performance Metrics</span>
+					{#if renderTime > 0}
+						<div class="flex flex-col">
+							<span class="text-xs text-[#8b949e]">Render Time</span>
+							<span class="font-mono text-[#e6edf3]">{renderTime.toFixed(2)}ms</span>
+						</div>
+					{/if}
+					{#if parseTime > 0}
+						<div class="flex flex-col">
+							<span class="text-xs text-[#8b949e]">Parse Time</span>
+							<span class="font-mono text-[#e6edf3]">{parseTime.toFixed(2)}ms</span>
+						</div>
+					{/if}
+					{#if highlightTime > 0}
+						<div class="flex flex-col">
+							<span class="text-xs text-[#8b949e]">Highlight Time</span>
+							<span class="font-mono text-[#58a6ff]">{highlightTime.toFixed(2)}ms</span>
+						</div>
+					{/if}
+					<div class="flex flex-col">
+						<span class="text-xs text-[#8b949e]">Files Highlighted</span>
+						<span class="font-mono text-[#e6edf3]">{highlightedFiles.size}/{diffs.length}</span>
+					</div>
+					{#if highlightingQueue.size > 0}
+						<div class="flex items-center gap-2">
+							<div class="h-2 w-2 animate-pulse rounded-full bg-[#f0883e]"></div>
+							<span class="text-xs text-[#f0883e]"
+								>Highlighting {highlightingQueue.size} file{highlightingQueue.size !== 1
+									? 's'
+									: ''}...</span
+							>
+						</div>
+					{/if}
+				</div>
+				<button
+					onclick={() => {
+						const params = new URLSearchParams(page.url.searchParams);
+						params.delete('debug');
+						const newUrl = params.toString()
+							? `${page.url.pathname}?${params.toString()}`
+							: page.url.pathname;
+						goto(newUrl, { replaceState: true, noScroll: true });
+					}}
+					class="rounded border border-[#30363d] bg-[#21262d] px-3 py-1 text-xs text-[#8b949e] transition-colors hover:bg-[#30363d] hover:text-[#e6edf3]"
+				>
+					Hide Debug
+				</button>
+			</div>
+		</div>
+	{/if}
+</div>
