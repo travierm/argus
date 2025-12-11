@@ -1,8 +1,23 @@
 <script lang="ts">
+	type Props = {
+		action: string;
+		repos: LocalRepo[];
+		initialRepo: string;
+		initialBranch: string;
+		buttonText: string;
+	};
+
+	let {
+		action,
+		repos,
+		initialBranch = '',
+		initialRepo = '',
+		buttonText = 'Review Code'
+	}: Props = $props();
+
 	import { getRepoByName } from '$lib/data/repos';
 	import { onMount } from 'svelte';
-
-	let { repos, initialRepo = '', initialBranch = '', preserveDebug = false } = $props();
+	import type { LocalRepo } from '../config/repos.example';
 
 	let selectedRepo = $state(initialRepo);
 	let selectedBranch = $state(initialBranch);
@@ -51,11 +66,7 @@
 	}
 </script>
 
-<form
-	method="POST"
-	action={preserveDebug ? '?/getDiff&debug' : '?/getDiff'}
-	class="flex items-end gap-3"
->
+<form method="POST" {action} class="flex items-end gap-3">
 	<div class="flex flex-col gap-1.5">
 		<label for="repo" class="text-xs font-medium text-[#8b949e]">Repository</label>
 		<select
@@ -99,6 +110,6 @@
 		disabled={!selectedRepo || !selectedBranch}
 		class="rounded border border-[#30363d] bg-[#238636] px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-[#2ea043] disabled:cursor-not-allowed disabled:bg-[#21262d] disabled:text-[#6e7681]"
 	>
-		Review Code
+		{buttonText}
 	</button>
 </form>

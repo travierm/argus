@@ -240,7 +240,7 @@
 				repos={data.repos}
 				initialRepo={form?.repo || ''}
 				initialBranch={form?.branch || ''}
-				preserveDebug={isDebugMode}
+				action={isDebugMode ? '?/getDiff&debug' : '?/getDiff'}
 			/>
 			<div class="flex items-center gap-4 pt-4 text-sm text-[#8b949e]">
 				{#if !isLoading}

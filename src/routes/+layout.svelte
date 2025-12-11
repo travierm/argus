@@ -1,7 +1,14 @@
 <script lang="ts">
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import { FolderGit, GitPullRequest, LayoutDashboard, Settings, FileDiff } from '@lucide/svelte';
+	import {
+		FolderGit,
+		GitPullRequest,
+		LayoutDashboard,
+		Settings,
+		FileDiff,
+		Bot
+	} from '@lucide/svelte';
 	import { page } from '$app/state';
 	let { children } = $props();
 
@@ -37,7 +44,7 @@
 		</div>
 
 		<!-- Page content -->
-		<div class="flex-1 {!currentPath.includes('/review') ? 'p-4' : ''}">
+		<div class="flex-1">
 			{@render children()}
 		</div>
 	</div>
@@ -46,9 +53,8 @@
 	<div class="drawer-side">
 		<label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay"></label>
 		<ul class="menu min-h-full w-50 bg-base-200 p-4">
-			<li><a href="/"><LayoutDashboard class="icon-sm" /> Dashboard</a></li>
 			<li><a href="/review"><GitPullRequest class="icon-sm" />Review Code</a></li>
-			<li><a href="/repos"><FolderGit class="icon-sm" /> Repos</a></li>
+			<li><a href="/automated"><Bot class="icon-sm" />Automated</a></li>
 			<li><a href="/settings"><Settings class="icon-sm" /> Settings</a></li>
 		</ul>
 	</div>
