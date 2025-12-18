@@ -51,11 +51,7 @@
 	}
 </script>
 
-<form
-	method="POST"
-	action={preserveDebug ? '?/getDiff&debug' : '?/getDiff'}
-	class="flex items-end gap-3"
->
+<form method="POST" action="/review" class="flex items-end gap-3">
 	<div class="flex flex-col gap-1.5">
 		<label for="repo" class="text-xs font-medium text-[#8b949e]">Repository</label>
 		<select
