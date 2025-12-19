@@ -26,4 +26,12 @@ export class BranchDiffModel {
 			diff: data.diff
 		};
 	}
+
+	static findByUuid(uuid: string): BranchDiff | null {
+		const result = db
+			.query<BranchDiff, [string]>(`SELECT * FROM branch_diffs WHERE uuid = ? LIMIT 1`)
+			.get(uuid);
+
+		return result || null;
+	}
 }
