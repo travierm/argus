@@ -1,0 +1,13 @@
+@layer components {
+	.card {
+		@apply rounded-xl border border-neutral-200/70 bg-white/50 p-1.5 dark:border-white/5 dark:bg-white/3;
+	}
+
+	.card-body {
+		@apply divide-y divide-neutral-200 rounded-lg border border-neutral-200 bg-white p-2 shadow-md shadow-black/5 dark:border-white/8 dark:bg-white/3;
+	}
+
+	.card-title {
+		@apply items-center justify-between p-2 text-lg;
+	}
+}
