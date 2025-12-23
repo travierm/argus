@@ -4,6 +4,7 @@
 
 @import './styles/buttons.css';
 @import './styles/cards.css';
+@import './styles/lists.css';
 
 @custom-variant dark (&:where(.dark, .dark *));
 

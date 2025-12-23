@@ -1,0 +1,43 @@
+@layer components {
+	/* Base list styles */
+	.list {
+		@apply space-y-2 text-gray-900 dark:text-white;
+	}
+
+	/* Unordered lists */
+	.list-disc {
+		@apply list-disc space-y-2 pl-6 text-gray-900 marker:text-gray-500 dark:text-white dark:marker:text-gray-400;
+	}
+
+	/* Ordered lists */
+	.list-decimal {
+		@apply list-decimal space-y-2 pl-6 text-gray-900 marker:text-gray-500 dark:text-white dark:marker:text-gray-400;
+	}
+
+	/* Nested list spacing */
+	.list-disc .list-disc,
+	.list-decimal .list-decimal,
+	.list-disc .list-decimal,
+	.list-decimal .list-disc {
+		@apply mt-2 space-y-1;
+	}
+
+	/* Compact variant */
+	.list-compact {
+		@apply space-y-1 text-sm;
+	}
+
+	/* List with dividers */
+	.list-divided {
+		@apply divide-y divide-neutral-200 space-y-0 dark:divide-neutral-700;
+	}
+
+	.list-divided > li {
+		@apply py-3 first:pt-0 last:pb-0;
+	}
+
+	/* List inside cards or containers */
+	.list-inside {
+		@apply space-y-2 rounded-lg border border-neutral-200 bg-white p-4 dark:border-white/8 dark:bg-white/3;
+	}
+}

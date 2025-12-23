@@ -30,7 +30,7 @@ class ShikiService {
 			try {
 				this.highlighter = await createHighlighter({
 					themes: ['github-dark'],
-					langs: ['typescript', 'javascript', 'json', 'php']
+					langs: ['typescript', 'javascript', 'json', 'php', 'html', 'svelte']
 				});
 			} catch (error) {
 				console.error('Failed to initialize Shiki:', error);
@@ -67,18 +67,22 @@ class ShikiService {
 				theme: 'github-dark'
 			});
 
-			if (!result.tokens[0]) {
+			if (!result.tokens.length) {
 				return this.escapeHtml(code);
 			}
 
-			return result.tokens[0]
-				.map((token) => {
-					if (token.color) {
-						return `<span style="color:${token.color}">${this.escapeHtml(token.content)}</span>`;
-					}
-					return this.escapeHtml(token.content);
-				})
-				.join('');
+			return result.tokens
+				.map((line) =>
+					line
+						.map((token) => {
+							if (token.color) {
+								return `<span style="color:${token.color}">${this.escapeHtml(token.content)}</span>`;
+							}
+							return this.escapeHtml(token.content);
+						})
+						.join('')
+				)
+				.join('\n');
 		} catch (error) {
 			console.error('Error highlighting code:', error);
 			return this.escapeHtml(code);
