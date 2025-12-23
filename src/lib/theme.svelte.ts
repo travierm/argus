@@ -11,7 +11,6 @@ function createTheme() {
 
 	// Initialize theme on client-side
 	if (browser) {
-
 		// Listen for system preference changes
 		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
 			// Only auto-switch if user hasn't set a preference

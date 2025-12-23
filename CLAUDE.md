@@ -87,6 +87,16 @@ Database location: `/database/db.sqlite`
   - `getBranches(repoPath)` - Lists branches
   - `getBranchDiff(repoPath, source, target)` - Gets diff between branches
 
+**Development & Debugging:**
+- `src/lib/dev/BrowserLogs.ts` - Browser logging system (dev mode only)
+  - Intercepts console methods and error handlers
+  - Posts batched logs to `/api/logs` endpoint
+- `src/routes/api/logs/+server.ts` - Backend endpoint for browser logs
+  - Receives browser logs and writes to `storage/logs/browser.log`
+  - Dev mode only (returns 404 in production)
+- `storage/logs/dev.log` - Server-side development logs (cleared on dev start)
+- `storage/logs/browser.log` - Client-side browser logs (cleared on dev start)
+
 ### SvelteKit Routing Structure
 
 ```
@@ -155,16 +165,35 @@ The project uses Vitest with Playwright for browser testing. Component tests sho
 **Dev Server Logs:**
 The dev server automatically logs all output to `storage/logs/dev.log` (configured in package.json `dev` script).
 
-**When the user mentions seeing errors:**
-1. Read `storage/logs/dev.log` to see the actual error messages and stack traces
-2. The log file contains real-time output from the dev server including:
-   - Build errors (Vite, TypeScript, Svelte compilation)
-   - Runtime errors and warnings
-   - Console logs from both server and client
-3. Always check this file first before asking the user to paste error messages
+**Browser Logs:**
+The browser automatically captures all console output and errors to `storage/logs/browser.log` in development mode.
+
+Browser logging system (`src/lib/dev/BrowserLogs.ts`):
+- Captures all console methods: `log`, `info`, `error`, `warn`, `table`
+- Captures uncaught errors and unhandled promise rejections
+- Batches logs and posts to `/api/logs` endpoint with 100ms debouncing
+- Includes timestamp, type, URL, and user agent for each log entry
+- Only active in development mode (tree-shaken from production builds)
+- Loaded dynamically in root layout via `import.meta.env.DEV` check
+
+**When the user mentions bugs, UI issues, or errors:**
+1. **ALWAYS read BOTH log files:**
+   - `storage/logs/dev.log` - Server-side errors, build errors, backend logs
+   - `storage/logs/browser.log` - Client-side console logs, runtime errors, React/Svelte errors
+2. Browser logs contain critical information about:
+   - Client-side JavaScript errors
+   - Console warnings and errors
+   - Unhandled promise rejections
+   - Component lifecycle errors
+   - Network errors visible in the browser
+3. Check browser logs FIRST for UI-related issues since they capture the exact error context
+4. Never ask the user to paste error messages - read the log files directly
 
 **Example workflow:**
 ```bash
-# User runs: bun run dev
-# You should: Read /Users/dev/repos/argus/storage/logs/dev.log
+# User says: "I'm seeing an error when I click the button"
+# You should:
+# 1. Read /Users/dev/repos/argus/storage/logs/browser.log (check for client-side errors)
+# 2. Read /Users/dev/repos/argus/storage/logs/dev.log (check for server-side errors)
+# 3. Analyze both logs to understand the complete error context
 ```
