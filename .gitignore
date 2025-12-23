@@ -25,3 +25,4 @@ vite.config.ts.timestamp-*
 # Temp
 src/config/repos.ts
 database/db.sqlite
+storage/

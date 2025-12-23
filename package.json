@@ -4,7 +4,7 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "bun -b vite dev",
+		"dev": "rm storage/logs/dev.log && bun -b vite dev 2>&1 | tee storage/logs/dev.log",
 		"build": "vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
