@@ -5,9 +5,9 @@
 </script>
 
 <div class="mt-4 w-full">
-	<div class="mx-auto flex max-w-4xl flex-col gap-2">
+	<div class="mx-auto flex max-w-5xl flex-col gap-2">
 		<!-- Header -->
-		<div class="card flex justify-between">
+		<div class="card flex justify-between p-2">
 			<a class="text-2xl font-bold" href="/">Argus</a>
 
 			<div class="flex items-center">

@@ -1,13 +1,30 @@
 import { getRepoByName } from '$lib/data/repos';
-import { getBranchDiff } from '$lib/server/actions/LocalGit';
+import { getBranchActivity, getBranchDiff } from '$lib/server/actions/LocalGit';
 import { BranchDiffModel } from '$lib/server/models/BranchDiffModel';
 import { redirect } from '@sveltejs/kit';
-import { LOCAL_REPOS } from '../../config/repos';
 import type { Actions, PageServerLoad } from './$types';
+import { LOCAL_REPOS } from '../../../config/repos';
 
 export const load: PageServerLoad = async () => {
+	// Run getBranchActivity in parallel for all repos
+	const activityByRepo = await Promise.all(
+		LOCAL_REPOS.map(async (r) => {
+			const branches = await getBranchActivity(r.path);
+			// Add repo_name to each branch activity
+			return branches.map((branch) => ({
+				...branch,
+				repo_name: r.name
+			}));
+		})
+	);
+
+	// Flatten and sort by date_iso (newest first)
+	const activity = activityByRepo.flat().sort((a, b) => {
+		return new Date(b.date_iso).getTime() - new Date(a.date_iso).getTime();
+	});
+
 	return {
-		repos: LOCAL_REPOS
+		activity
 	};
 };
 

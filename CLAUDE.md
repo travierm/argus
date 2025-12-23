@@ -96,6 +96,7 @@ Database location: `/database/db.sqlite`
   - Dev mode only (returns 404 in production)
 - `storage/logs/dev.log` - Server-side development logs (cleared on dev start)
 - `storage/logs/browser.log` - Client-side browser logs (cleared on dev start)
+- `storage/logs/tests.log` - Test execution output from Vitest
 
 ### SvelteKit Routing Structure
 
@@ -156,6 +157,7 @@ The project uses Vitest with Playwright for browser testing. Component tests sho
 ## Development Notes
 
 - Dev server logs automatically saved to `storage/logs/dev.log`
+- Test execution logs automatically saved to `storage/logs/tests.log`
 - Repo configuration required: copy `config/repos.example.ts` to `config/repos.ts` and add your local repo paths
 - Form submissions use POST-redirect-GET pattern with `redirect(303, path)`
 - All form actions should use `throw redirect()` not `return redirect()`
@@ -176,10 +178,17 @@ Browser logging system (`src/lib/dev/BrowserLogs.ts`):
 - Only active in development mode (tree-shaken from production builds)
 - Loaded dynamically in root layout via `import.meta.env.DEV` check
 
+**Test Logs:**
+Test execution output is automatically saved to `storage/logs/tests.log`.
+- Contains Vitest test results, failures, and stack traces
+- Updated each time tests are run
+- Critical for debugging test failures
+
 **When the user mentions bugs, UI issues, or errors:**
-1. **ALWAYS read BOTH log files:**
+1. **ALWAYS read the relevant log files:**
    - `storage/logs/dev.log` - Server-side errors, build errors, backend logs
-   - `storage/logs/browser.log` - Client-side console logs, runtime errors, React/Svelte errors
+   - `storage/logs/browser.log` - Client-side console logs, runtime errors, Svelte errors
+   - `storage/logs/tests.log` - Test failures, assertion errors, test stack traces
 2. Browser logs contain critical information about:
    - Client-side JavaScript errors
    - Console warnings and errors
@@ -189,11 +198,26 @@ Browser logging system (`src/lib/dev/BrowserLogs.ts`):
 3. Check browser logs FIRST for UI-related issues since they capture the exact error context
 4. Never ask the user to paste error messages - read the log files directly
 
-**Example workflow:**
+**When the user mentions test failures:**
+1. **ALWAYS read `storage/logs/tests.log` first** to see:
+   - Which tests failed
+   - Assertion errors and expected vs actual values
+   - Full stack traces
+   - Test execution context
+2. Never ask the user to copy/paste test output - read tests.log directly
+
+**Example workflows:**
 ```bash
 # User says: "I'm seeing an error when I click the button"
 # You should:
 # 1. Read /Users/dev/repos/argus/storage/logs/browser.log (check for client-side errors)
 # 2. Read /Users/dev/repos/argus/storage/logs/dev.log (check for server-side errors)
 # 3. Analyze both logs to understand the complete error context
+
+# User says: "The tests are failing"
+# You should:
+# 1. Read /Users/dev/repos/argus/storage/logs/tests.log (check for test failures and stack traces)
+# 2. Identify which tests failed and why
+# 3. Read the test files to understand the test logic
+# 4. Fix the issue based on the failure details
 ```
