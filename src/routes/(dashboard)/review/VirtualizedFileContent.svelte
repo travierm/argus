@@ -60,7 +60,7 @@
 	});
 </script>
 
-<div class="h-full max-h-[800px] overflow-auto bg-[#0d1117]" bind:this={scrollElement}>
+<div class="h-full max-h-[800px] overflow-auto" bind:this={scrollElement}>
 	{#if virtualizer && $virtualizer}
 		<div class="relative w-full" style="height: {$virtualizer.getTotalSize()}px;">
 			{#each items as virtualItem (virtualItem.key)}

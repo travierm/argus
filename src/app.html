@@ -3,9 +3,24 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script>
+			// Prevent flash of unstyled content (FOUC) by setting theme before page renders
+			(function () {
+				const savedTheme = localStorage.getItem('theme');
+				const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				const isDark = savedTheme === 'dark' || (savedTheme === null && prefersDark);
+
+				if (isDark) {
+					document.documentElement.classList.add('dark');
+				}
+			})();
+		</script>
 		%sveltekit.head%
 	</head>
-	<body data-sveltekit-preload-data="hover">
+	<body
+		data-sveltekit-preload-data="hover"
+		class="bg-neutral-100 text-gray-900 dark:bg-neutral-900 dark:text-white"
+	>
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
 </html>

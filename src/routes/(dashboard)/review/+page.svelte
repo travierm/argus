@@ -10,8 +10,8 @@
 	import VirtualizedFileContent from './VirtualizedFileContent.svelte';
 	import FileExplorer from './FileExplorer/FileExplorer.svelte';
 	import ShikiService from '$lib/shikiService';
-	import BranchReviewForm from '../../views/BranchReviewForm.svelte';
 	import type { PageProps } from './$types';
+	import BranchReviewForm from '../../../views/BranchReviewForm.svelte';
 
 	let { data, form }: PageProps = $props();
 
@@ -217,31 +217,15 @@
 		// Scroll to the file
 		$virtualizer.scrollToIndex(fileIndex, {
 			align: 'start',
-			behavior: 'smooth'
+			behavior: 'auto'
 		});
 	}
 </script>
 
-<svelte:head>
-	<style>
-		body {
-			background: #0d1117;
-		}
-	</style>
-</svelte:head>
-
 <div class="flex h-screen flex-col">
 	<!-- Header -->
-	<div
-		class="sticky top-0 z-10 flex flex-col gap-4 border-b border-[#30363d] bg-[#0d1117] px-4 py-2"
-	>
-		<div class="flex items-center justify-between">
-			<BranchReviewForm
-				repos={data.repos}
-				initialRepo={form?.repo || ''}
-				initialBranch={form?.branch || ''}
-				preserveDebug={isDebugMode}
-			/>
+	<div class="sticky top-0 z-10 flex flex-col gap-4 border-b border-[#30363d] px-4 py-2">
+		<div class="flex items-center justify-end">
 			<div class="flex items-center gap-4 pt-4 text-sm text-[#8b949e]">
 				{#if !isLoading}
 					<span>{diffs.length} file{diffs.length !== 1 ? 's' : ''} changed</span>
@@ -263,7 +247,7 @@
 								}, 0);
 							}
 						}}
-						class="rounded border border-[#30363d] bg-[#21262d] px-3 py-1 text-xs transition-colors hover:bg-[#30363d]"
+						class="rounded border border-[#30363d] px-3 py-1 text-xs transition-colors hover:bg-[#30363d]"
 					>
 						{expandedFiles.size === diffs.length ? 'Collapse All' : 'Expand All'}
 					</button>
@@ -326,7 +310,7 @@
 											highlightedContent={highlightedContent.get(virtualItem.index)}
 										/>
 									{:else}
-										<div class="bg-[#0d1117]">
+										<div>
 											{#each diff.hunks as hunk, hunkIdx (virtualItem.key + '-' + hunkIdx)}
 												<HunkDisplay
 													{hunk}

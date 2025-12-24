@@ -1,5 +1,6 @@
 import { getBranches } from '$lib/server/actions/LocalGit.js';
 import { json } from '@sveltejs/kit';
+
 export async function GET({ url }) {
 	const repoPath = url.searchParams.get('path');
 

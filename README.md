@@ -81,5 +81,4 @@ Use status code `303` (See Other) for POST-redirect-GET pattern.
 ## Powered By
 
 - [SvelteKit](https://svelte.dev/docs/kit/introduction)
-- [DaisyUI](https://daisyui.com/)
 - [Bun](https://bun.com/docs)

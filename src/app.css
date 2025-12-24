@@ -1,8 +1,16 @@
 @import 'tailwindcss';
 
-@plugin 'daisyui';
 @plugin '@tailwindcss/forms';
-@plugin '@tailwindcss/typography';
+
+@import './styles/buttons.css';
+@import './styles/cards.css';
+@import './styles/lists.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+	--color-scheme: light dark;
+}
 
 .icon-sm {
 	@apply h-5 w-5;

@@ -8,7 +8,7 @@
 	<h1 class="text-xl">Repos</h1>
 
 	{#each data.repos as repo (repo.name)}
-		<div class="flex w-64 items-center justify-between rounded bg-base-200 p-4">
+		<div class="bg-base-200 flex w-64 items-center justify-between rounded p-4">
 			<h4 class="text-xl">{repo.name}</h4>
 			<button class="btn btn-primary">View</button>
 		</div>

@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 import { BranchDiffModel } from '$lib/server/models/BranchDiffModel';
-import { LOCAL_REPOS } from '../../../config/repos';
+import { LOCAL_REPOS } from '../../../../config/repos';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {
