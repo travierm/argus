@@ -5,9 +5,11 @@
 </script>
 
 <div class="mt-4 w-full">
-	<div class="mx-auto flex max-w-5xl flex-col gap-2">
+	<div class="mx-auto flex flex-col gap-2">
 		<!-- Header -->
-		<div class="card flex justify-between p-2">
+		<div
+			class="flex justify-between border-b-2 border-neutral-200/70 px-4 pb-4 dark:border-white/5"
+		>
 			<a class="text-2xl font-bold" href="/">Argus</a>
 
 			<div class="flex items-center">
@@ -17,9 +19,8 @@
 				<ThemeToggle />
 			</div>
 		</div>
-		<!-- <div class="border-b border-gray-300 dark:border-neutral-700"></div> -->
 
-		<div class="mt-4">
+		<div>
 			{@render children()}
 		</div>
 	</div>

@@ -59,7 +59,7 @@
 			name="repo"
 			bind:value={selectedRepo}
 			onchange={handleRepoChange}
-			class="rounded border border-[#30363d] bg-[#0d1117] px-3 py-1.5 text-sm text-[#f0f6fc] transition-colors hover:border-[#58a6ff] focus:border-[#58a6ff] focus:outline-none"
+			class="rounded border border-[#30363d] px-3 py-1.5 text-sm text-[#f0f6fc] transition-colors hover:border-[#58a6ff] focus:border-[#58a6ff] focus:outline-none"
 		>
 			<option value="" disabled>Select a repo</option>
 			{#each repos as repo (repo.name)}
@@ -75,7 +75,7 @@
 			name="branch"
 			bind:value={selectedBranch}
 			disabled={!selectedRepo || loading}
-			class="rounded border border-[#30363d] bg-[#0d1117] px-3 py-1.5 text-sm text-[#f0f6fc] transition-colors hover:border-[#58a6ff] focus:border-[#58a6ff] focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+			class="rounded border border-[#30363d] px-3 py-1.5 text-sm text-[#f0f6fc] transition-colors hover:border-[#58a6ff] focus:border-[#58a6ff] focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 		>
 			{#if loading}
 				<option>Loading branches...</option>

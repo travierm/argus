@@ -1,4 +1,8 @@
 @layer components {
+	.card-border {
+		@apply border border-neutral-200/70 dark:border-white/5;
+	}
+
 	.card {
 		@apply rounded-xl border border-neutral-200/70 bg-white/50 p-1.5 dark:border-white/5 dark:bg-white/3;
 	}
