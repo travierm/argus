@@ -1,9 +1,14 @@
 <script lang="ts">
 	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	import ComponentShowcase from '$lib/components/ComponentShowcase.svelte';
+	import Modal from '$lib/components/Modal.svelte';
+
+	let isBasicModalOpen = $state(false);
+	let isCustomModalOpen = $state(false);
+	let isNoHeaderModalOpen = $state(false);
 </script>
 
-<div class="mb-8 flex min-h-screen flex-col gap-8">
+<div class="mx-auto mt-4 mb-8 flex min-h-screen max-w-4xl flex-col gap-8">
 	<!-- Buttons -->
 	<div class="flex flex-col gap-4">
 		<h1 class="text-2xl font-bold text-gray-900 dark:text-white">Buttons</h1>
@@ -157,6 +162,177 @@
 					<li>Contained item 3</li>
 				</ul>
 			</ComponentShowcase>
+		</div>
+	</div>
+
+	<!-- Modals -->
+	<div class="flex flex-col gap-4">
+		<h1 class="text-2xl font-bold text-gray-900 dark:text-white">Modals</h1>
+
+		<ComponentShowcase
+			title="Basic Modal"
+			code={`<script lang="ts">
+  import Modal from '$lib/components/Modal.svelte';
+  let isOpen = $state(false);
+</script>
+
+<button class="btn btn-primary" onclick={() => isOpen = true}>
+  Open Modal
+</button>
+
+<Modal open={isOpen} onClose={() => isOpen = false}>
+  {#snippet header()}
+    <h2 class="text-xl font-bold">Modal Title</h2>
+  {/snippet}
+
+  {#snippet content()}
+    <p>Your content here...</p>
+  {/snippet}
+
+  {#snippet footer()}
+    <div class="flex justify-end gap-2">
+      <button class="btn btn-ghost" onclick={() => isOpen = false}>
+        Cancel
+      </button>
+      <button class="btn btn-primary" onclick={() => isOpen = false}>
+        Confirm
+      </button>
+    </div>
+  {/snippet}
+</Modal>`}
+		>
+			<button class="btn btn-primary max-w-40" onclick={() => (isBasicModalOpen = true)}>
+				Open Basic Modal
+			</button>
+
+			<Modal open={isBasicModalOpen} onClose={() => (isBasicModalOpen = false)}>
+				{#snippet header()}
+					<h2 class="text-xl font-bold text-neutral-900 dark:text-white">Modal Title</h2>
+				{/snippet}
+
+				{#snippet content()}
+					<div class="space-y-4">
+						<p class="text-neutral-700 dark:text-neutral-300">
+							This is a basic modal with header, content, and footer sections.
+						</p>
+						<p class="text-neutral-700 dark:text-neutral-300">
+							You can close it by clicking the backdrop, pressing Escape, or clicking the X button.
+						</p>
+					</div>
+				{/snippet}
+
+				{#snippet footer()}
+					<div class="flex justify-end gap-2">
+						<button class="btn btn-ghost" onclick={() => (isBasicModalOpen = false)}>
+							Cancel
+						</button>
+						<button class="btn btn-primary" onclick={() => (isBasicModalOpen = false)}>
+							Confirm
+						</button>
+					</div>
+				{/snippet}
+			</Modal>
+		</ComponentShowcase>
+
+		<ComponentShowcase
+			title="Custom Width Modal"
+			code={`<Modal open={isOpen} onClose={onClose} maxWidth="max-w-4xl">
+  {#snippet content()}
+    <p>This modal is wider with max-w-4xl</p>
+  {/snippet}
+</Modal>`}
+		>
+			<button class="btn btn-secondary max-w-40" onclick={() => (isCustomModalOpen = true)}>
+				Open Wide Modal
+			</button>
+
+			<Modal
+				open={isCustomModalOpen}
+				onClose={() => (isCustomModalOpen = false)}
+				maxWidth="max-w-4xl"
+			>
+				{#snippet header()}
+					<h2 class="text-xl font-bold text-neutral-900 dark:text-white">Wide Modal</h2>
+				{/snippet}
+
+				{#snippet content()}
+					<div class="space-y-4">
+						<p class="text-neutral-700 dark:text-neutral-300">
+							This modal uses <code class="rounded bg-neutral-100 px-1 py-0.5 dark:bg-neutral-800"
+								>max-w-4xl</code
+							> for a wider layout.
+						</p>
+						<p class="text-neutral-700 dark:text-neutral-300">
+							You can customize the width by passing any Tailwind max-width class like <code
+								class="rounded bg-neutral-100 px-1 py-0.5 dark:bg-neutral-800">max-w-sm</code
+							>,
+							<code class="rounded bg-neutral-100 px-1 py-0.5 dark:bg-neutral-800">max-w-md</code>,
+							<code class="rounded bg-neutral-100 px-1 py-0.5 dark:bg-neutral-800">max-w-lg</code>,
+							<code class="rounded bg-neutral-100 px-1 py-0.5 dark:bg-neutral-800">max-w-xl</code>,
+							<code class="rounded bg-neutral-100 px-1 py-0.5 dark:bg-neutral-800">max-w-2xl</code>,
+							<code class="rounded bg-neutral-100 px-1 py-0.5 dark:bg-neutral-800">max-w-4xl</code>,
+							etc.
+						</p>
+					</div>
+				{/snippet}
+
+				{#snippet footer()}
+					<div class="flex justify-end gap-2">
+						<button class="btn btn-primary" onclick={() => (isCustomModalOpen = false)}>
+							Close
+						</button>
+					</div>
+				{/snippet}
+			</Modal>
+		</ComponentShowcase>
+
+		<ComponentShowcase
+			title="Modal Without Header"
+			code={`<Modal open={isOpen} onClose={onClose}>
+  {#snippet content()}
+    <p>This modal has no header, only content and close button.</p>
+  {/snippet}
+</Modal>`}
+		>
+			<button class="btn btn-outline max-w-40" onclick={() => (isNoHeaderModalOpen = true)}>
+				No Header Modal
+			</button>
+
+			<Modal open={isNoHeaderModalOpen} onClose={() => (isNoHeaderModalOpen = false)}>
+				{#snippet content()}
+					<div class="space-y-4">
+						<h3 class="text-lg font-semibold text-neutral-900 dark:text-white">Content Only</h3>
+						<p class="text-neutral-700 dark:text-neutral-300">
+							This modal doesn't use the header snippet, so only the X button appears in the top
+							right corner.
+						</p>
+						<p class="text-neutral-700 dark:text-neutral-300">
+							This is useful for simpler dialogs or confirmation prompts.
+						</p>
+					</div>
+				{/snippet}
+			</Modal>
+		</ComponentShowcase>
+
+		<div
+			class="rounded-lg border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-700 dark:bg-neutral-800"
+		>
+			<h3 class="mb-2 font-semibold text-neutral-900 dark:text-white">Modal Features</h3>
+			<ul class="list-inside list-disc space-y-1 text-sm text-neutral-700 dark:text-neutral-300">
+				<li>Click outside (backdrop) to close</li>
+				<li>Press Escape key to close</li>
+				<li>Click the X button to close</li>
+				<li>Tab key cycles through focusable elements (focus trap)</li>
+				<li>Smooth fade and scale transitions</li>
+				<li>Body scroll lock when modal is open</li>
+				<li>ARIA attributes for accessibility</li>
+				<li>Works in light and dark mode</li>
+				<li>
+					Customizable width via <code
+						class="rounded bg-neutral-100 px-1 py-0.5 dark:bg-neutral-800">maxWidth</code
+					> prop
+				</li>
+			</ul>
 		</div>
 	</div>
 </div>
