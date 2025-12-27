@@ -115,7 +115,7 @@
 			<!-- Header -->
 			{#if header}
 				<div
-					class="card-title relative flex items-center justify-between border-b border-neutral-200 p-6 dark:border-white/8"
+					class="card-title relative flex items-center justify-between border-b border-neutral-200 p-4 dark:border-white/8"
 				>
 					<div id="modal-title">
 						{@render header()}
@@ -142,7 +142,7 @@
 			{/if}
 
 			<!-- Content -->
-			<div class="overflow-y-auto p-6">
+			<div class="overflow-y-auto p-4">
 				{@render content()}
 			</div>
 

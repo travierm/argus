@@ -224,8 +224,51 @@
 
 <div class="flex h-screen flex-col">
 	<!-- Header -->
-	<div class="sticky top-0 z-10 flex flex-col gap-4 border-b border-[#30363d] px-4 py-2">
-		<div class="flex items-center justify-end">
+	<div class="sticky top-0 z-10 flex flex-col gap-4 border-b border-[#30363d] px-4">
+		<div class="flex items-center justify-between">
+			<p>{form.branch}</p>
+			<div class="">
+				<ul
+					class="-mb-px flex flex-wrap text-center text-sm font-medium"
+					id="default-tab"
+					data-tabs-toggle="#default-tab-content"
+					role="tablist"
+				>
+					<li class="me-2" role="presentation">
+						<button
+							class="rounded-t-base inline-block p-4"
+							id="settings-tab"
+							data-tabs-target="#settings"
+							type="button"
+							role="tab"
+							aria-controls="settings"
+							aria-selected="false">Analysis</button
+						>
+					</li>
+					<li class="me-2" role="presentation">
+						<button
+							class="rounded-t-base inline-block border-b p-4"
+							id="profile-tab"
+							data-tabs-target="#profile"
+							type="button"
+							role="tab"
+							aria-controls="profile"
+							aria-selected="false">Changes</button
+						>
+					</li>
+					<li class="me-2" role="presentation">
+						<button
+							class="rounded-t-base inline-block p-4"
+							id="dashboard-tab"
+							data-tabs-target="#dashboard"
+							type="button"
+							role="tab"
+							aria-controls="dashboard"
+							aria-selected="false">Commits</button
+						>
+					</li>
+				</ul>
+			</div>
 			<div class="flex items-center gap-4 pt-4 text-sm text-[#8b949e]">
 				{#if !isLoading}
 					<span>{diffs.length} file{diffs.length !== 1 ? 's' : ''} changed</span>
