@@ -1,19 +1,18 @@
 <script lang="ts">
-	import parseDiff, { type DiffInfo } from '$lib/diffParser'; // TODO: Probably should move this to the server
+	import parseDiff, { type DiffInfo } from '$lib/diffParser';
 	import { createVirtualizer } from '@tanstack/svelte-virtual';
 	import { onMount, onDestroy, untrack } from 'svelte';
 	import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
-	import FileHeader from './FileHeader.svelte';
-	import HunkDisplay from './HunkDisplay.svelte';
-	import VirtualizedFileContent from './VirtualizedFileContent.svelte';
-	import FileExplorer from './FileExplorer/FileExplorer.svelte';
+	import FileHeader from '@routes/(dashboard)/review/FileHeader.svelte';
+	import HunkDisplay from '@routes/(dashboard)/review/HunkDisplay.svelte';
+	import VirtualizedFileContent from '@routes/(dashboard)/review/VirtualizedFileContent.svelte';
+	import FileExplorer from '@routes/(dashboard)/review/FileExplorer/FileExplorer.svelte';
 	import ShikiService from '$lib/shikiService';
-	import type { PageProps } from './$types';
-	import ReviewTabs from './ReviewTabs.svelte';
+	import type { PageData } from './$types';
 
-	let { data, form }: PageProps = $props();
+	let { data }: { data: PageData } = $props();
 
 	// Check if debug mode is enabled via query param
 	const isDebugMode = $derived(page.url.searchParams.has('debug'));
@@ -56,12 +55,12 @@
 		}
 	});
 
-	// Parse diff when form data is available
+	// Parse diff when data is available
 	$effect(() => {
-		if (form?.diff) {
+		if (data?.diff) {
 			isLoading = true;
 			const startTime = performance.now();
-			const parsedDiffs = parseDiff.parse(form.diff);
+			const parsedDiffs = parseDiff.parse(data.diff);
 			parseTime = performance.now() - startTime;
 
 			// Update diffs and expandedFiles
@@ -238,12 +237,10 @@
 	}
 </script>
 
-<div class="flex h-screen flex-col">
+<div class="flex h-full flex-col">
 	<!-- Header -->
-	<div class="sticky top-0 z-10 flex flex-col gap-4 border-b border-[#30363d] px-4">
+	<div class="sticky top-0 z-10 flex flex-col gap-4 border-b border-[#30363d] bg-[#0d1117] px-4">
 		<div class="flex items-center justify-between">
-			<p>{form.branch}</p>
-			<ReviewTabs />
 			<div class="flex items-center gap-4 pt-4 text-sm text-[#8b949e]">
 				{#if !isLoading}
 					<span>{diffs.length} file{diffs.length !== 1 ? 's' : ''} changed</span>
@@ -272,8 +269,6 @@
 				{/if}
 			</div>
 		</div>
-
-		<!-- Review Form -->
 	</div>
 
 	<!-- Main Content: File Explorer + Diff View -->
@@ -296,7 +291,7 @@
 				</div>
 			{:else if diffs.length === 0}
 				<div class="flex h-full flex-col items-center justify-center gap-5">
-					<p class="text-lg text-[#8b949e]">Select a repository and branch to view the diff</p>
+					<p class="text-lg text-[#8b949e]">No changes found</p>
 				</div>
 			{:else if virtualizer && $virtualizer}
 				<div class="relative w-full" style="height: {$virtualizer.getTotalSize()}px;">

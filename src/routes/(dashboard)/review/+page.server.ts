@@ -3,7 +3,7 @@ import { getBranchActivity, getBranchDiff } from '$lib/server/actions/LocalGit';
 import { BranchDiffModel } from '$lib/server/models/BranchDiffModel';
 import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { LOCAL_REPOS } from '../../../config/repos';
+import { LOCAL_REPOS } from '@config/repos';
 
 export const load: PageServerLoad = async () => {
 	// Run getBranchActivity in parallel for all repos
@@ -44,6 +44,7 @@ export const actions = {
 			diff: await getBranchDiff(repo?.path, 'main', branchName)
 		});
 
-		redirect(303, '/review/' + diff.uuid);
+		// Redirect to changes tab by default
+		redirect(303, `/review/${diff.uuid}/changes`);
 	}
 } satisfies Actions;

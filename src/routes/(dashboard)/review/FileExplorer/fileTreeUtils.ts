@@ -1,5 +1,5 @@
 import type { DiffInfo } from '$lib/diffParser';
-import { getFilePath } from '../diffViewerUtils';
+import { getFilePath } from '@routes/(dashboard)/review/diffViewerUtils';
 
 export interface TreeNode {
 	name: string;

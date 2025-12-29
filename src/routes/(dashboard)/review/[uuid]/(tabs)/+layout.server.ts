@@ -1,9 +1,9 @@
 import { error } from '@sveltejs/kit';
 import { BranchDiffModel } from '$lib/server/models/BranchDiffModel';
-import { LOCAL_REPOS } from '../../../../config/repos';
-import type { PageServerLoad } from './$types';
+import { LOCAL_REPOS } from '@config/repos';
+import type { LayoutServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: LayoutServerLoad = async ({ params }) => {
 	const { uuid } = params;
 
 	if (!uuid || uuid.length === 0) {

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { TreeNode } from './fileTreeUtils';
-	import { getDiffTypeColor } from '../diffViewerUtils';
+	import { getDiffTypeColor } from '@routes/(dashboard)/review/diffViewerUtils';
 	import {
 		ChevronDown,
 		FileDiff,
