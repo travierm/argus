@@ -30,7 +30,22 @@ class ShikiService {
 			try {
 				this.highlighter = await createHighlighter({
 					themes: ['github-dark'],
-					langs: ['typescript', 'javascript', 'json', 'php', 'html', 'svelte']
+					langs: [
+						'typescript',
+						'javascript',
+						'json',
+						'php',
+						'html',
+						'css',
+						'scss',
+						'svelte',
+						'tsx',
+						'jsx',
+						'python',
+						'sql',
+						'bash',
+						'markdown'
+					]
 				});
 			} catch (error) {
 				console.error('Failed to initialize Shiki:', error);

@@ -113,13 +113,29 @@
 			const hunk = diff.hunks[hunkIdx];
 			const hunkMap = new SvelteMap<number, string>();
 
-			for (let changeIdx = 0; changeIdx < hunk.changes.length; changeIdx++) {
-				const change = hunk.changes[changeIdx];
-				try {
-					const highlighted = await shiki.highlight(change.content, fileExt);
-					hunkMap.set(changeIdx, highlighted);
-				} catch (error) {
-					console.error('Error highlighting line:', error);
+			// Collect all lines in the hunk for context-aware highlighting
+			const hunkContent = hunk.changes.map((c) => c.content).join('\n');
+
+			try {
+				// Highlight the entire hunk at once to preserve context
+				const highlighted = await shiki.highlight(hunkContent, fileExt);
+				const highlightedLines = highlighted.split('\n');
+
+				// Map each highlighted line back to its change
+				for (let changeIdx = 0; changeIdx < hunk.changes.length; changeIdx++) {
+					hunkMap.set(changeIdx, highlightedLines[changeIdx] || '');
+				}
+			} catch (error) {
+				console.error('Error highlighting hunk:', error);
+				// Fallback to individual line highlighting
+				for (let changeIdx = 0; changeIdx < hunk.changes.length; changeIdx++) {
+					const change = hunk.changes[changeIdx];
+					try {
+						const highlighted = await shiki.highlight(change.content, fileExt);
+						hunkMap.set(changeIdx, highlighted);
+					} catch (error) {
+						console.error('Error highlighting line:', error);
+					}
 				}
 			}
 
