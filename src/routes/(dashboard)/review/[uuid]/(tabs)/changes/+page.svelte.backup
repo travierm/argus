@@ -312,7 +312,7 @@
 							bind:this={virtualItemEls[virtualItem.index]}
 						>
 							<div
-								class="overflow-hidden rounded-md border border-[#30363d] bg-[#161b22] contain-[layout_style_paint]"
+								class="overflow-hidden rounded-md border border-[#30363d]  contain-[layout_style_paint]"
 							>
 								<FileHeader
 									{diff}
@@ -350,7 +350,7 @@
 	<!-- Debug Performance Banner -->
 	{#if isDebugMode}
 		<div
-			class="fixed right-0 bottom-0 left-0 z-50 border-t border-[#30363d] bg-[#161b22] px-4 py-3 shadow-lg"
+			class="fixed right-0 bottom-0 left-0 z-50 border-t border-[#30363d]  px-4 py-3 shadow-lg"
 		>
 			<div class="flex items-center justify-between">
 				<div class="flex items-center gap-6 text-sm">

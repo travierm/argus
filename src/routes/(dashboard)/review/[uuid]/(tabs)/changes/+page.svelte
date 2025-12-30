@@ -239,9 +239,9 @@
 
 <div class="flex h-full flex-col">
 	<!-- Header -->
-	<div class="sticky top-0 z-10 flex flex-col gap-4 border-b border-[#30363d] bg-[#0d1117] px-4">
-		<div class="flex items-center justify-between">
-			<div class="flex items-center gap-4 pt-4 text-sm text-[#8b949e]">
+	<div class="sticky top-0 z-10 flex flex-col gap-4 border-b">
+		<div class="flex items-center justify-end pt-4 pr-8 pb-2">
+			<div class="flex items-center gap-4 text-sm">
 				{#if !isLoading}
 					<span>{diffs.length} file{diffs.length !== 1 ? 's' : ''} changed</span>
 					<button
@@ -262,7 +262,7 @@
 								}, 0);
 							}
 						}}
-						class="rounded border border-[#30363d] px-3 py-1 text-xs transition-colors hover:bg-[#30363d]"
+						class="rounded border px-3 py-1 text-xs transition-colors hover:bg-[#30363d]"
 					>
 						{expandedFiles.size === diffs.length ? 'Collapse All' : 'Expand All'}
 					</button>
@@ -284,9 +284,7 @@
 		<div class="flex-1 overflow-auto p-5" bind:this={scrollElement}>
 			{#if isLoading}
 				<div class="flex h-full flex-col items-center justify-center gap-5">
-					<div
-						class="h-10 w-10 animate-spin rounded-full border-[3px] border-[#30363d] border-t-[#58a6ff]"
-					></div>
+					<div class="h-10 w-10 animate-spin rounded-full border-[3px] border-t-[#58a6ff]"></div>
 					<p class="text-sm text-[#8b949e]">Parsing diff in background...</p>
 				</div>
 			{:else if diffs.length === 0}
@@ -306,9 +304,7 @@
 							data-index={virtualItem.index}
 							bind:this={virtualItemEls[virtualItem.index]}
 						>
-							<div
-								class="overflow-hidden rounded-md border border-[#30363d] bg-[#161b22] contain-[layout_style_paint]"
-							>
+							<div class="overflow-hidden rounded-md border contain-[layout_style_paint]">
 								<FileHeader
 									{diff}
 									{isExpanded}
@@ -344,9 +340,7 @@
 
 	<!-- Debug Performance Banner -->
 	{#if isDebugMode}
-		<div
-			class="fixed right-0 bottom-0 left-0 z-50 border-t border-[#30363d] bg-[#161b22] px-4 py-3 shadow-lg"
-		>
+		<div class="fixed right-0 bottom-0 left-0 z-50 border-t px-4 py-3 shadow-lg">
 			<div class="flex items-center justify-between">
 				<div class="flex items-center gap-6 text-sm">
 					<span class="font-semibold text-[#58a6ff]">Performance Metrics</span>
@@ -392,7 +386,7 @@
 							: page.url.pathname;
 						goto(newUrl, { replaceState: true, noScroll: true });
 					}}
-					class="rounded border border-[#30363d] bg-[#21262d] px-3 py-1 text-xs text-[#8b949e] transition-colors hover:bg-[#30363d] hover:text-[#e6edf3]"
+					class="rounded border px-3 py-1 text-xs transition-colors hover:bg-[#30363d] hover:text-[#e6edf3]"
 				>
 					Hide Debug
 				</button>

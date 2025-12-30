@@ -12,6 +12,11 @@
 	--color-scheme: light dark;
 }
 
+@layer base {
+	* {
+		@apply border-neutral-200/70 dark:border-white/5;
+	}
+}
 .icon-sm {
 	@apply h-5 w-5;
 }

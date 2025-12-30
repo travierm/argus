@@ -1,4 +1,5 @@
 import { createHighlighter, type Highlighter, type BundledLanguage, bundledLanguages } from 'shiki';
+import { theme } from '$lib/theme.svelte';
 
 class ShikiService {
 	private static instance: ShikiService | null = null;
@@ -29,7 +30,7 @@ class ShikiService {
 		this.initPromise = (async () => {
 			try {
 				this.highlighter = await createHighlighter({
-					themes: ['github-dark'],
+					themes: ['github-dark', 'github-light'],
 					langs: [
 						'typescript',
 						'javascript',
@@ -77,9 +78,11 @@ class ShikiService {
 				await this.highlighter.loadLanguage(normalizedLang);
 			}
 
+			const currentTheme = 'github-dark';
+
 			const result = this.highlighter.codeToTokens(code, {
 				lang: normalizedLang,
-				theme: 'github-dark'
+				theme: currentTheme
 			});
 
 			if (!result.tokens.length) {
@@ -91,7 +94,7 @@ class ShikiService {
 					line
 						.map((token) => {
 							if (token.color) {
-								return `<span style="color:${token.color}">${this.escapeHtml(token.content)}</span>`;
+								return `<span style="color:${token.color}!important">${this.escapeHtml(token.content)}</span>`;
 							}
 							return this.escapeHtml(token.content);
 						})

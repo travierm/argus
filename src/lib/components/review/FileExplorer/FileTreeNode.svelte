@@ -52,14 +52,14 @@
 				<div class="shrink-0">
 					<ChevronDown
 						size={16}
-						class="text-[#8b949e] 
+						class="
              transition-transform duration-200 {childCollapsed ? '-rotate-90' : ''}"
 					/>
 				</div>
 				<div class="shrink-0">
-					<Folder size={16} class="text-[#8b949e]" />
+					<Folder size={16} />
 				</div>
-				<span class="truncate text-[#e6edf3]">{child.name}</span>
+				<span class="truncate">{child.name}</span>
 			</button>
 
 			{#if !childCollapsed}
@@ -79,12 +79,12 @@
 				</div>
 				{#if child.highlight}
 					<!-- Search results with highlights -->
-					<span class="truncate text-sm text-[#e6edf3]">
+					<span class="truncate text-sm">
 						{@html child.highlight}
 					</span>
 				{:else}
 					<!-- Regular file name -->
-					<span class="truncate text-sm text-[#e6edf3]">{child.name}</span>
+					<span class="truncate text-sm">{child.name}</span>
 				{/if}
 			</button>
 		{/if}

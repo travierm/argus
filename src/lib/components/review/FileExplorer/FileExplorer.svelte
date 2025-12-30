@@ -54,9 +54,9 @@
 	}
 </script>
 
-<div class="flex h-full flex-col border-r border-[#30363d]">
+<div class="flex h-full flex-col border-r">
 	<!-- Header -->
-	<div class="border-b border-[#30363d] p-2">
+	<div class="border-b p-2">
 		<div class="mb-2 flex items-center justify-between">
 			<h2 class="text-sm font-semibold text-[#f0f6fc]">Files</h2>
 		</div>
@@ -69,7 +69,7 @@
 				type="text"
 				placeholder="Search files..."
 				bind:value={searchQuery}
-				class="w-full rounded border border-[#30363d] py-1.5 pr-3 pl-9 text-sm text-[#f0f6fc] placeholder-[#6e7681] transition-colors focus:border-[#58a6ff] focus:outline-none"
+				class="w-full rounded border py-1.5 pr-3 pl-9 text-sm text-[#f0f6fc] placeholder-[#6e7681] transition-colors focus:border-[#58a6ff] focus:outline-none"
 			/>
 		</div>
 
@@ -87,7 +87,7 @@
 	<!-- File Tree -->
 	<div class="flex-1 overflow-y-auto py-2">
 		{#if filteredFiles.length === 0}
-			<div class="p-4 text-center text-sm text-[#6e7681]">No files found</div>
+			<div class="p-4 text-center text-sm">No files found</div>
 		{:else}
 			<FileTreeNode
 				node={fileTree}
