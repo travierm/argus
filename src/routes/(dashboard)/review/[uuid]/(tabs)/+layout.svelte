@@ -7,7 +7,7 @@
 
 <div class="flex flex-col">
 	<!-- Header with tabs -->
-	<div class="sticky top-0 z-10 flex flex-col gap-4 border-b px-4">
+	<div class="flex flex-col gap-4 border-b px-4">
 		<div class="flex items-center justify-between">
 			<div class="flex flex-col gap-1">
 				<h1 class="text-lg font-semibold">{data.repo}</h1>

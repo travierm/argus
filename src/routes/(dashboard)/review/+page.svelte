@@ -242,7 +242,9 @@
 	<!-- Header -->
 	<div class="sticky top-0 z-10 flex flex-col gap-4 border-b border-[#30363d] px-4">
 		<div class="flex items-center justify-between">
-			<p>{form.branch}</p>
+			{#if form?.branch}
+				<p>{form.branch}</p>
+			{/if}
 			<ReviewTabs />
 			<div class="flex items-center gap-4 pt-4 text-sm text-[#8b949e]">
 				{#if !isLoading}
