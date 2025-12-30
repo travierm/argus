@@ -5,13 +5,13 @@
 	import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
-	import FileHeader from './FileHeader.svelte';
-	import HunkDisplay from './HunkDisplay.svelte';
-	import VirtualizedFileContent from './VirtualizedFileContent.svelte';
-	import FileExplorer from './FileExplorer/FileExplorer.svelte';
+	import FileHeader from '$lib/components/review/FileHeader.svelte';
+	import HunkDisplay from '$lib/components/review/HunkDisplay.svelte';
+	import VirtualizedFileContent from '$lib/components/review/VirtualizedFileContent.svelte';
+	import FileExplorer from '$lib/components/review/FileExplorer/FileExplorer.svelte';
 	import ShikiService from '$lib/shikiService';
 	import type { PageProps } from './$types';
-	import ReviewTabs from './ReviewTabs.svelte';
+	import ReviewTabs from '$lib/components/review/ReviewTabs.svelte';
 
 	let { data, form }: PageProps = $props();
 

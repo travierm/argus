@@ -5,10 +5,10 @@
 	import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
-	import FileHeader from '@routes/(dashboard)/review/FileHeader.svelte';
-	import HunkDisplay from '@routes/(dashboard)/review/HunkDisplay.svelte';
-	import VirtualizedFileContent from '@routes/(dashboard)/review/VirtualizedFileContent.svelte';
-	import FileExplorer from '@routes/(dashboard)/review/FileExplorer/FileExplorer.svelte';
+	import FileHeader from '$lib/components/review/FileHeader.svelte';
+	import HunkDisplay from '$lib/components/review/HunkDisplay.svelte';
+	import VirtualizedFileContent from '$lib/components/review/VirtualizedFileContent.svelte';
+	import FileExplorer from '$lib/components/review/FileExplorer/FileExplorer.svelte';
 	import ShikiService from '$lib/shikiService';
 	import type { PageData } from './$types';
 
