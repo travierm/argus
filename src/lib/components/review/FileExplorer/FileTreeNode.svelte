@@ -46,7 +46,7 @@
 		{#if child.type === 'folder'}
 			<button
 				onclick={() => onToggleFolder(child.path)}
-				class="group flex w-full items-center gap-1 py-0.5 pr-2 pl-1 text-left text-sm transition-colors hover:bg-[#21262d]"
+				class="group flex w-full items-center gap-1 py-0.5 pr-2 pl-1 text-left text-sm transition-colors hover-bg"
 				style="padding-left: {depth * 12 + 4}px"
 			>
 				<div class="shrink-0">
@@ -71,7 +71,7 @@
 
 			<button
 				onclick={() => child.index !== undefined && onFileClick(child.index)}
-				class="group flex w-full items-center gap-1.5 py-0.5 pr-2 pl-1 text-left transition-colors hover:bg-[#21262d]"
+				class="group hover-bg flex w-full items-center gap-1.5 py-0.5 pr-2 pl-1 text-left transition-colors"
 				style="padding-left: {depth * 12 + 20}px"
 			>
 				<div class="shrink-0">

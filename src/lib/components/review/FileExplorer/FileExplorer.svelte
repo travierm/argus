@@ -63,7 +63,7 @@
 
 		<div class="relative">
 			<div class="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2">
-				<Search size={14} class="text-[#8b949e]" />
+				<Search size={14} />
 			</div>
 			<input
 				type="text"
@@ -79,7 +79,7 @@
 			{filteredFiles.length}
 			{filteredFiles.length === 1 ? 'file' : 'files'}
 			{#if searchQuery.trim()}
-				<span class="text-[#8b949e]">matching "{searchQuery}"</span>
+				<span>matching "{searchQuery}"</span>
 			{/if}
 		</div>
 	</div>

@@ -17,6 +17,11 @@
 		@apply border-neutral-200/70 dark:border-white/5;
 	}
 }
+
+.hover-bg {
+	@apply hover:bg-neutral-200/70 dark:hover:bg-[#21262d];
+}
+
 .icon-sm {
 	@apply h-5 w-5;
 }
