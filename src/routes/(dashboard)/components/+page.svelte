@@ -8,7 +8,7 @@
 	let isNoHeaderModalOpen = $state(false);
 </script>
 
-<div class="mx-auto mt-4 mb-8 flex min-h-screen max-w-4xl flex-col gap-8">
+<div class="mx-auto mt-4 mb-8 flex max-w-4xl flex-col gap-8">
 	<!-- Buttons -->
 	<div class="flex flex-col gap-4">
 		<h1 class="text-2xl font-bold text-gray-900 dark:text-white">Buttons</h1>

@@ -5,7 +5,7 @@
 	let { data, children }: { data: LayoutData; children: any } = $props();
 </script>
 
-<div class="flex h-screen flex-col">
+<div class="flex flex-col">
 	<!-- Header with tabs -->
 	<div class="sticky top-0 z-10 flex flex-col gap-4 border-b px-4">
 		<div class="flex items-center justify-between">

@@ -237,6 +237,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Branch Changes</title>
+</svelte:head>
+
 <div class="flex h-full flex-col">
 	<!-- Header -->
 	<div class="sticky top-0 z-10 flex flex-col gap-4 border-b">

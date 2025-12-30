@@ -18,6 +18,14 @@
 	}
 }
 
+.text-primary {
+	@apply text-orange-400;
+}
+
+.border-primary {
+	@apply border-orange-400;
+}
+
 .hover-bg {
 	@apply hover:bg-neutral-200/70 dark:hover:bg-[#21262d];
 }

@@ -238,7 +238,7 @@
 	}
 </script>
 
-<div class="flex h-screen flex-col">
+<div class="flex flex-col">
 	<!-- Header -->
 	<div class="sticky top-0 z-10 flex flex-col gap-4 border-b border-[#30363d] px-4">
 		<div class="flex items-center justify-between">
