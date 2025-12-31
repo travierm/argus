@@ -66,54 +66,65 @@
 	}
 
 	.btn-secondary {
-		background-color: #6b7280;
+		background-color: var(--color-secondary);
 		color: white;
 
 		&:hover:not(:disabled) {
-			background-color: #4b5563;
+			background-color: color-mix(in srgb, var(--color-secondary) 85%, black);
 		}
 
 		&:focus-visible {
-			outline-color: #6b7280;
+			outline-color: var(--color-secondary);
+		}
+	}
+
+	.btn-secondary.dark {
+		background-color: var(--color-secondary-dark);
+
+		&:hover:not(:disabled) {
+			background-color: color-mix(in srgb, var(--color-secondary-dark) 85%, black);
 		}
 	}
 
 	.btn-success {
-		background-color: #10b981;
+		--btn-color: var(--color-green-500);
+		background-color: var(--btn-color);
 		color: white;
 
 		&:hover:not(:disabled) {
-			background-color: #059669;
+			background-color: color-mix(in srgb, var(--btn-color) 85%, black);
 		}
 
 		&:focus-visible {
-			outline-color: #10b981;
+			outline-color: var(--btn-color);
 		}
 	}
 
 	.btn-danger {
-		background-color: #ef4444;
+		--btn-color: var(--color-red-500);
+		background-color: var(--btn-color);
 		color: white;
 
 		&:hover:not(:disabled) {
-			background-color: #dc2626;
+			background-color: color-mix(in srgb, var(--btn-color) 85%, black);
 		}
 
 		&:focus-visible {
-			outline-color: #ef4444;
+			outline-color: var(--btn-color);
 		}
 	}
 
 	.btn-warning {
-		background-color: #f59e0b;
+		--btn-color: var(--color-amber-500);
+		background-color: var(--btn-color);
 		color: white;
 
 		&:hover:not(:disabled) {
-			background-color: #d97706;
+			background-color: color-mix(in srgb, var(--btn-color) 85%, black);
 		}
 
 		&:focus-visible {
-			outline-color: #f59e0b;
+			outline-color: var(--btn-color);
 		}
 	}
 
@@ -123,34 +134,17 @@
 		color: inherit;
 
 		&:hover:not(:disabled) {
-			background-color: rgba(0, 0, 0, 0.05);
-		}
-
-		:where(.dark, .dark *) & {
-			border-color: #d1d5db;
-			color: white;
-
-			&:hover:not(:disabled) {
-				background-color: rgba(255, 255, 255, 0.1);
-			}
+			@apply bg-neutral-200/70 dark:bg-white/10;
 		}
 	}
 
 	.btn-ghost {
 		background-color: transparent;
 		border-color: transparent;
-		color: inherit;
+		@apply text-neutral-700 dark:text-white;
 
 		&:hover:not(:disabled) {
-			background-color: rgba(0, 0, 0, 0.05);
-		}
-
-		:where(.dark, .dark *) & {
-			color: white;
-
-			&:hover:not(:disabled) {
-				background-color: rgba(255, 255, 255, 0.1);
-			}
+			@apply bg-neutral-200/70 dark:bg-white/10;
 		}
 	}
 

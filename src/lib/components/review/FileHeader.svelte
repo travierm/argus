@@ -16,7 +16,7 @@
 <button
 	class="flex w-full cursor-pointer items-center gap-3 border-b border-none
         px-4 py-3 text-left transition-colors duration-150
-           hover:bg-[#1c2128]"
+           hover:bg-gh-canvas-subtle"
 	style="border-left: 4px solid {getDiffTypeColor(diff.type)}"
 	onclick={onToggle}
 	type="button"
@@ -51,10 +51,10 @@
 
 	<div class="flex shrink-0 gap-2 font-mono text-xs">
 		{#if stats.additions > 0}
-			<span class="font-semibold text-[#3fb950]">+{stats.additions}</span>
+			<span class="font-semibold text-gh-success-fg">+{stats.additions}</span>
 		{/if}
 		{#if stats.deletions > 0}
-			<span class="font-semibold text-[#f85149]">-{stats.deletions}</span>
+			<span class="font-semibold text-gh-danger-fg">-{stats.deletions}</span>
 		{/if}
 	</div>
 

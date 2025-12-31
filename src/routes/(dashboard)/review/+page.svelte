@@ -240,13 +240,13 @@
 
 <div class="flex flex-col">
 	<!-- Header -->
-	<div class="sticky top-0 z-10 flex flex-col gap-4 border-b border-[#30363d] px-4">
+	<div class="sticky top-0 z-10 flex flex-col gap-4 border-b border-gh-border-default px-4">
 		<div class="flex items-center justify-between">
 			{#if form?.branch}
 				<p>{form.branch}</p>
 			{/if}
 			<ReviewTabs />
-			<div class="flex items-center gap-4 pt-4 text-sm text-[#8b949e]">
+			<div class="flex items-center gap-4 pt-4 text-sm text-gh-fg-muted">
 				{#if !isLoading}
 					<span>{diffs.length} file{diffs.length !== 1 ? 's' : ''} changed</span>
 					<button
@@ -267,7 +267,7 @@
 								}, 0);
 							}
 						}}
-						class="rounded border border-[#30363d] px-3 py-1 text-xs transition-colors hover:bg-[#30363d]"
+						class="rounded border border-gh-border-default px-3 py-1 text-xs transition-colors hover:bg-gh-border-default"
 					>
 						{expandedFiles.size === diffs.length ? 'Collapse All' : 'Expand All'}
 					</button>
@@ -292,13 +292,13 @@
 			{#if isLoading}
 				<div class="flex h-full flex-col items-center justify-center gap-5">
 					<div
-						class="h-10 w-10 animate-spin rounded-full border-[3px] border-[#30363d] border-t-[#58a6ff]"
+						class="h-10 w-10 animate-spin rounded-full border-[3px] border-gh-border-default border-t-gh-accent-fg"
 					></div>
-					<p class="text-sm text-[#8b949e]">Parsing diff in background...</p>
+					<p class="text-sm text-gh-fg-muted">Parsing diff in background...</p>
 				</div>
 			{:else if diffs.length === 0}
 				<div class="flex h-full flex-col items-center justify-center gap-5">
-					<p class="text-lg text-[#8b949e]">Select a repository and branch to view the diff</p>
+					<p class="text-lg text-gh-fg-muted">Select a repository and branch to view the diff</p>
 				</div>
 			{:else if virtualizer && $virtualizer}
 				<div class="relative w-full" style="height: {$virtualizer.getTotalSize()}px;">
@@ -314,7 +314,7 @@
 							bind:this={virtualItemEls[virtualItem.index]}
 						>
 							<div
-								class="overflow-hidden rounded-md border border-[#30363d] contain-[layout_style_paint]"
+								class="overflow-hidden rounded-md border border-gh-border-default contain-[layout_style_paint]"
 							>
 								<FileHeader
 									{diff}
@@ -351,36 +351,38 @@
 
 	<!-- Debug Performance Banner -->
 	{#if isDebugMode}
-		<div class="fixed right-0 bottom-0 left-0 z-50 border-t border-[#30363d] px-4 py-3 shadow-lg">
+		<div
+			class="fixed right-0 bottom-0 left-0 z-50 border-t border-gh-border-default px-4 py-3 shadow-lg"
+		>
 			<div class="flex items-center justify-between">
 				<div class="flex items-center gap-6 text-sm">
-					<span class="font-semibold text-[#58a6ff]">Performance Metrics</span>
+					<span class="font-semibold text-gh-accent-fg">Performance Metrics</span>
 					{#if renderTime > 0}
 						<div class="flex flex-col">
-							<span class="text-xs text-[#8b949e]">Render Time</span>
-							<span class="font-mono text-[#e6edf3]">{renderTime.toFixed(2)}ms</span>
+							<span class="text-xs text-gh-fg-muted">Render Time</span>
+							<span class="font-mono text-gh-fg-default">{renderTime.toFixed(2)}ms</span>
 						</div>
 					{/if}
 					{#if parseTime > 0}
 						<div class="flex flex-col">
-							<span class="text-xs text-[#8b949e]">Parse Time</span>
-							<span class="font-mono text-[#e6edf3]">{parseTime.toFixed(2)}ms</span>
+							<span class="text-xs text-gh-fg-muted">Parse Time</span>
+							<span class="font-mono text-gh-fg-default">{parseTime.toFixed(2)}ms</span>
 						</div>
 					{/if}
 					{#if highlightTime > 0}
 						<div class="flex flex-col">
-							<span class="text-xs text-[#8b949e]">Highlight Time</span>
-							<span class="font-mono text-[#58a6ff]">{highlightTime.toFixed(2)}ms</span>
+							<span class="text-xs text-gh-fg-muted">Highlight Time</span>
+							<span class="font-mono text-gh-accent-fg">{highlightTime.toFixed(2)}ms</span>
 						</div>
 					{/if}
 					<div class="flex flex-col">
-						<span class="text-xs text-[#8b949e]">Files Highlighted</span>
-						<span class="font-mono text-[#e6edf3]">{highlightedFiles.size}/{diffs.length}</span>
+						<span class="text-xs text-gh-fg-muted">Files Highlighted</span>
+						<span class="font-mono text-gh-fg-default">{highlightedFiles.size}/{diffs.length}</span>
 					</div>
 					{#if highlightingQueue.size > 0}
 						<div class="flex items-center gap-2">
-							<div class="h-2 w-2 animate-pulse rounded-full bg-[#f0883e]"></div>
-							<span class="text-xs text-[#f0883e]"
+							<div class="h-2 w-2 animate-pulse rounded-full bg-gh-attention-fg"></div>
+							<span class="text-xs text-gh-attention-fg"
 								>Highlighting {highlightingQueue.size} file{highlightingQueue.size !== 1
 									? 's'
 									: ''}...</span
@@ -397,7 +399,7 @@
 							: page.url.pathname;
 						goto(newUrl, { replaceState: true, noScroll: true });
 					}}
-					class="rounded border border-[#30363d] bg-[#21262d] px-3 py-1 text-xs text-[#8b949e] transition-colors hover:bg-[#30363d] hover:text-[#e6edf3]"
+					class="rounded border border-gh-border-default bg-gh-border-muted px-3 py-1 text-xs text-gh-fg-muted transition-colors hover:bg-gh-border-default hover:text-gh-fg-default"
 				>
 					Hide Debug
 				</button>

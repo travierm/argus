@@ -73,7 +73,7 @@
 				>
 					{#if item.type === 'hunk-header'}
 						<div
-							class="border-t border-[#30363d] bg-[#1c2128] px-4 py-2 font-mono text-xs text-[#8b949e]"
+							class="border-t border-gh-border-default bg-gh-canvas-subtle px-4 py-2 font-mono text-xs text-gh-fg-muted"
 						>
 							{item.hunk.content}
 						</div>

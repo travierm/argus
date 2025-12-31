@@ -8,32 +8,41 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-:root {
-	--color-primary: oklch(75% 0.183 55.934);
-}
-
 @theme {
 	--color-scheme: light dark;
+
+	/* Brand colors */
+	--color-primary: oklch(75% 0.183 55.934);
+	--color-primary-dark: oklch(65% 0.183 55.934);
+	--color-secondary: #525252; /* neutral-600 */
+	--color-secondary-dark: #737373; /* neutral-500 */
+
+	/* GitHub Dark theme colors - for diff viewer consistency */
+	--color-gh-canvas-default: #0d1117;
+	--color-gh-canvas-subtle: #161b22;
+	--color-gh-border-default: #30363d;
+	--color-gh-border-muted: #21262d;
+
+	/* Text colors */
+	--color-gh-fg-default: #e6edf3;
+	--color-gh-fg-muted: #8b949e;
+	--color-gh-fg-subtle: #6e7681;
+	--color-gh-fg-onEmphasis: #f0f6fc;
+
+	/* Accent colors */
+	--color-gh-accent-fg: #58a6ff;
+	--color-gh-accent-emphasis: #1f6feb;
+	--color-gh-success-fg: #3fb950;
+	--color-gh-danger-fg: #f85149;
+	--color-gh-attention-fg: #f0883e;
+
+	/* Success/danger backgrounds */
+	--color-gh-success-emphasis: #238636;
+	--color-gh-success-emphasis-hover: #2ea043;
 }
 
 @layer base {
 	* {
-		@apply border-neutral-200/70 dark:border-white/5;
+		@apply border-neutral-300/70 dark:border-white/5;
 	}
-}
-
-.text-primary {
-	@apply text-orange-400;
-}
-
-.border-primary {
-	@apply border-orange-400;
-}
-
-.hover-bg {
-	@apply hover:bg-neutral-200/70 dark:hover:bg-[#21262d];
-}
-
-.icon-sm {
-	@apply h-5 w-5;
 }

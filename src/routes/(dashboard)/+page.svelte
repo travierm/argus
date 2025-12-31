@@ -10,14 +10,17 @@
 			<p class="card-title font-bold">Branch Activity</p>
 			<div class="card-body p-0">
 				<ul class="list-divided text-sm">
-					{#each data.activity as activity}
-						<li class="p-0 first:rounded-t-lg last:rounded-b-lg">
+					{#each data.activity as activity, index}
+						<li class="p-0">
 							<form method="POST" action="/review">
 								<input type="hidden" name="repo" value={activity.repo_name} />
 								<input type="hidden" name="branch" value={activity.branch} />
 								<button
 									type="submit"
-									class="grid w-full cursor-pointer grid-cols-[1fr_auto] gap-4 px-4 py-3 text-left transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-700"
+									class="grid w-full cursor-pointer grid-cols-[1fr_auto] gap-4 px-4 py-3 text-left transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-700 {index ===
+									0
+										? 'rounded-t-lg'
+										: ''} {index === data.activity.length - 1 ? 'rounded-b-lg' : ''}"
 								>
 									<div class="min-w-0">
 										<div class="truncate font-medium text-neutral-900 dark:text-white">

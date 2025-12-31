@@ -17,9 +17,9 @@
 >
 	<div class="flex min-w-[100px] shrink-0 select-none">
 		<span
-			class="w-[50px] border-r border-[#30363d] px-2.5 py-0.5 text-right text-[#6e7681]
+			class="w-[50px] border-r border-gh-border-default px-2.5 py-0.5 text-right text-gh-fg-subtle
         {change.type === 'insert' ? 'bg-green-500/10' : ''}
-        {change.type === 'delete' ? 'bg-red-500/15 text-[#8b949e]' : ''}"
+        {change.type === 'delete' ? 'bg-red-500/15 text-gh-fg-muted' : ''}"
 		>
 			{#if change.type === 'delete' || change.type === 'normal'}
 				{change.type === 'delete' ? change.lineNumber : change.oldLineNumber}
@@ -28,8 +28,8 @@
 			{/if}
 		</span>
 		<span
-			class="w-[50px] border-r border-[#30363d] px-2.5 py-0.5 text-right text-[#6e7681]
-        {change.type === 'insert' ? 'bg-green-500/15 text-[#8b949e]' : ''}
+			class="w-[50px] border-r border-gh-border-default px-2.5 py-0.5 text-right text-gh-fg-subtle
+        {change.type === 'insert' ? 'bg-green-500/15 text-gh-fg-muted' : ''}
         {change.type === 'delete' ? 'bg-red-500/10' : ''}"
 		>
 			{#if change.type === 'insert' || change.type === 'normal'}
@@ -42,8 +42,8 @@
 	<div class="flex min-w-0 flex-1 py-0.5 pr-2.5">
 		<span
 			class="shrink-0 px-2 select-none
-        {change.type === 'insert' ? 'text-[#3fb950]' : ''}
-        {change.type === 'delete' ? 'text-[#f85149]' : ''}"
+        {change.type === 'insert' ? 'text-gh-success-fg' : ''}
+        {change.type === 'delete' ? 'text-gh-danger-fg' : ''}"
 		>
 			{#if change.type === 'insert'}+{:else if change.type === 'delete'}-{:else}&nbsp;{/if}
 		</span>

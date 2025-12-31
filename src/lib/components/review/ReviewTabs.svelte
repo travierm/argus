@@ -26,8 +26,8 @@
 			<a
 				href="{baseUrl}/{tab.id}"
 				class="rounded-t-base inline-flex items-center gap-2 p-4 {currentTab === tab.id
-					? 'text-primary border-primary border-b-2'
-					: 'text-[#8b949e] hover:text-[#e6edf3]'}"
+					? 'border-b-2 border-primary text-primary'
+					: 'text-gh-fg-muted hover:text-gh-fg-default'}"
 				role="tab"
 				aria-controls={tab.id}
 				aria-selected={currentTab === tab.id}
