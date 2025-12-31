@@ -8,6 +8,10 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+:root {
+	--color-primary: oklch(75% 0.183 55.934);
+}
+
 @theme {
 	--color-scheme: light dark;
 }

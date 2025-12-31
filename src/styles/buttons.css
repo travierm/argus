@@ -55,15 +55,13 @@
 
 	/* Color Variants */
 	.btn-primary {
-		background-color: #3b82f6;
+		background-color: var(--color-primary);
 		color: white;
-
 		&:hover:not(:disabled) {
-			background-color: #2563eb;
+			background-color: color-mix(in srgb, var(--color-primary) 85%, black);
 		}
-
 		&:focus-visible {
-			outline-color: #3b82f6;
+			outline-color: var(--color-primary);
 		}
 	}
 
