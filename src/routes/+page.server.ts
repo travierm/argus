@@ -1,5 +1,5 @@
 import { getBranchActivity } from '$lib/server/actions/LocalGit';
-import { LOCAL_REPOS } from '../../config/repos';
+import { LOCAL_REPOS } from '../config/repos';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
