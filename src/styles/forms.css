@@ -1,0 +1,143 @@
+@layer components {
+	/* Form Group - Container for label + input/textarea */
+	.form-group {
+		@apply flex flex-col gap-1.5;
+	}
+
+	/* Labels */
+	.form-label {
+		@apply text-sm font-medium text-neutral-700 dark:text-neutral-300;
+	}
+
+	.form-label-error {
+		@apply text-sm font-medium text-red-600 dark:text-red-400;
+	}
+
+	/* Base Input Styles */
+	.input {
+		/* Layout */
+		@apply w-full px-3 py-2;
+		min-height: 2.5rem;
+
+		/* Appearance */
+		@apply rounded-md border border-neutral-300 bg-white text-neutral-900;
+		@apply dark:border-neutral-600 dark:bg-neutral-800 dark:text-white;
+		font-size: 0.875rem;
+		line-height: 1.25rem;
+
+		/* States */
+		transition: all 0.2s ease;
+
+		/* Focus */
+		&:focus {
+			outline: none;
+			border-color: transparent;
+			box-shadow: 0 0 0 2px var(--color-primary);
+		}
+
+		/* Placeholder */
+		&::placeholder {
+			@apply text-neutral-400 dark:text-neutral-500;
+		}
+
+		/* Disabled */
+		&:disabled {
+			@apply cursor-not-allowed bg-neutral-100 text-neutral-500 dark:bg-neutral-900 dark:text-neutral-600;
+			opacity: 0.6;
+		}
+
+		/* Readonly */
+		&:read-only {
+			@apply bg-neutral-50 dark:bg-neutral-900/50;
+		}
+	}
+
+	/* Input Error State */
+	.input-error {
+		@apply border-red-500 dark:border-red-400;
+
+		&:focus {
+			@apply ring-red-500 dark:ring-red-400;
+		}
+	}
+
+	/* Textarea Styles */
+	.textarea {
+		/* Inherit all input styles */
+		@apply w-full px-3 py-2;
+		min-height: 6rem;
+
+		/* Appearance */
+		@apply rounded-md border border-neutral-300 bg-white text-neutral-900;
+		@apply dark:border-neutral-600 dark:bg-neutral-800 dark:text-white;
+		font-size: 0.875rem;
+		line-height: 1.5rem;
+		resize: vertical;
+
+		/* States */
+		transition: all 0.2s ease;
+
+		/* Focus */
+		&:focus {
+			outline: none;
+			border-color: transparent;
+			box-shadow: 0 0 0 2px var(--color-primary);
+		}
+
+		/* Placeholder */
+		&::placeholder {
+			@apply text-neutral-400 dark:text-neutral-500;
+		}
+
+		/* Disabled */
+		&:disabled {
+			@apply cursor-not-allowed bg-neutral-100 text-neutral-500 dark:bg-neutral-900 dark:text-neutral-600;
+			opacity: 0.6;
+			resize: none;
+		}
+
+		/* Readonly */
+		&:read-only {
+			@apply bg-neutral-50 dark:bg-neutral-900/50;
+		}
+	}
+
+	/* Textarea Error State */
+	.textarea-error {
+		@apply border-red-500 dark:border-red-400;
+
+		&:focus {
+			@apply ring-red-500 dark:ring-red-400;
+		}
+	}
+
+	/* Helper Text */
+	.form-helper {
+		@apply mt-1 text-xs text-neutral-500 dark:text-neutral-400;
+	}
+
+	.form-error-message {
+		@apply mt-1 text-xs text-red-600 dark:text-red-400;
+	}
+
+	/* Size Variants */
+	.input-sm,
+	.textarea-sm {
+		@apply px-2 py-1.5 text-xs;
+		min-height: 2rem;
+	}
+
+	.textarea-sm {
+		min-height: 4rem;
+	}
+
+	.input-lg,
+	.textarea-lg {
+		@apply px-4 py-3 text-base;
+		min-height: 3rem;
+	}
+
+	.textarea-lg {
+		min-height: 8rem;
+	}
+}

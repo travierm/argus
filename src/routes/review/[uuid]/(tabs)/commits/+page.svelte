@@ -4,10 +4,6 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
-<svelte:head>
-	<title>Branch Commits</title>
-</svelte:head>
-
 <div class="flex h-full flex-col items-center justify-center p-8">
 	<h1 class="text-2xl font-bold text-[#e6edf3]">Commits View</h1>
 	<p class="mt-4 text-[#8b949e]">Commit history for this branch will go here</p>

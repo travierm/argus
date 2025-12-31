@@ -14,9 +14,9 @@
 	const baseUrl = $derived(uuid ? `/review/${uuid}` : '/review');
 
 	const tabs = [
-		{ id: 'reviews', label: 'AI Reviews', icon: Sparkles },
 		{ id: 'changes', label: 'Changes', icon: FileText },
-		{ id: 'commits', label: 'Commits', icon: GitCommit }
+		{ id: 'commits', label: 'Commits', icon: GitCommit },
+		{ id: 'intelligence', label: 'Intelligence', icon: Sparkles }
 	];
 </script>
 

@@ -335,4 +335,115 @@
 			</ul>
 		</div>
 	</div>
+
+	<!-- Form Inputs -->
+	<div class="flex flex-col gap-4">
+		<h1 class="text-2xl font-bold text-gray-900 dark:text-white">Form Inputs</h1>
+
+		<div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+			<ComponentShowcase
+				title="Basic Input"
+				code={`<div class="form-group">
+  <label class="form-label" for="email">
+    Email
+  </label>
+  <input
+    id="email"
+    type="email"
+    class="input"
+    placeholder="you@example.com"
+  />
+</div>`}
+			>
+				<div class="form-group w-full max-w-xs">
+					<label class="form-label" for="email">Email</label>
+					<input
+						id="email"
+						type="email"
+						class="input"
+						placeholder="you@example.com"
+						autocomplete="off"
+					/>
+				</div>
+			</ComponentShowcase>
+
+			<ComponentShowcase
+				title="Input with Error"
+				code={`<div class="form-group">
+  <label class="form-label-error" for="username">
+    Username
+  </label>
+  <input
+    id="username"
+    type="text"
+    class="input input-error"
+    value="user@"
+  />
+  <span class="form-error-message">
+    Username cannot contain @ symbol
+  </span>
+</div>`}
+			>
+				<div class="form-group w-full max-w-xs">
+					<label class="form-label-error" for="username">Username</label>
+					<input
+						id="username"
+						type="text"
+						class="input input-error"
+						value="user@"
+						autocomplete="off"
+					/>
+					<span class="form-error-message">Username cannot contain @ symbol</span>
+				</div>
+			</ComponentShowcase>
+		</div>
+	</div>
+
+	<!-- Textareas -->
+	<div class="flex flex-col gap-4">
+		<h1 class="text-2xl font-bold text-gray-900 dark:text-white">Textareas</h1>
+
+		<div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+			<ComponentShowcase
+				title="Basic Textarea"
+				code={`<div class="form-group">
+  <label class="form-label" for="description">
+    Description
+  </label>
+  <textarea
+    id="description"
+    class="textarea"
+    placeholder="Enter description..."
+  ></textarea>
+</div>`}
+			>
+				<div class="form-group w-full max-w-xs">
+					<label class="form-label" for="description">Description</label>
+					<textarea id="description" class="textarea" placeholder="Enter description..."></textarea>
+				</div>
+			</ComponentShowcase>
+
+			<ComponentShowcase
+				title="Textarea with Error"
+				code={`<div class="form-group">
+  <label class="form-label-error" for="comment">
+    Comment
+  </label>
+  <textarea
+    id="comment"
+    class="textarea textarea-error"
+  >Too short</textarea>
+  <span class="form-error-message">
+    Must be at least 20 characters
+  </span>
+</div>`}
+			>
+				<div class="form-group w-full max-w-xs">
+					<label class="form-label-error" for="comment">Comment</label>
+					<textarea id="comment" class="textarea textarea-error">Too short</textarea>
+					<span class="form-error-message">Must be at least 20 characters</span>
+				</div>
+			</ComponentShowcase>
+		</div>
+	</div>
 </div>

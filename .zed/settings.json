@@ -1,0 +1,29 @@
+{
+	// Show more path context in tabs
+	"tab_bar": {
+		"show": true,
+		"show_nav_history_buttons": false
+	},
+
+	// Enable breadcrumbs for better path context
+	"breadcrumbs": {
+		"enabled": true
+	},
+
+	// Show full file paths in project panel
+	"project_panel": {
+		"dock": "left",
+		"default_width": 300,
+		"indent_size": 20
+	},
+
+	// Buffer search and navigation
+	"buffer_font_features": {
+		"calt": true
+	},
+
+	// File-specific settings to help identify SvelteKit routes
+	"file_types": {
+		"Svelte": ["*.svelte"]
+	}
+}

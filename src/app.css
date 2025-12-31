@@ -5,6 +5,7 @@
 @import './styles/buttons.css';
 @import './styles/cards.css';
 @import './styles/lists.css';
+@import './styles/forms.css';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -16,6 +17,7 @@
 	--color-primary-dark: oklch(65% 0.183 55.934);
 	--color-secondary: #525252; /* neutral-600 */
 	--color-secondary-dark: #737373; /* neutral-500 */
+	--color-muted: #8b949e;
 
 	/* GitHub Dark theme colors - for diff viewer consistency */
 	--color-gh-canvas-default: #0d1117;
