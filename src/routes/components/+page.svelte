@@ -1,5 +1,4 @@
 <script lang="ts">
-	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	import ComponentShowcase from '$lib/components/ComponentShowcase.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 
@@ -7,6 +6,10 @@
 	let isCustomModalOpen = $state(false);
 	let isNoHeaderModalOpen = $state(false);
 </script>
+
+<svelte:head>
+	<title>Components</title>
+</svelte:head>
 
 <div class="mx-auto mt-4 mb-8 flex max-w-4xl flex-col gap-8">
 	<!-- Buttons -->
@@ -442,6 +445,73 @@
 					<label class="form-label-error" for="comment">Comment</label>
 					<textarea id="comment" class="textarea textarea-error">Too short</textarea>
 					<span class="form-error-message">Must be at least 20 characters</span>
+				</div>
+			</ComponentShowcase>
+		</div>
+	</div>
+
+	<!-- Checkboxes -->
+	<div class="flex flex-col gap-4">
+		<h1 class="text-2xl font-bold text-gray-900 dark:text-white">Checkboxes</h1>
+
+		<div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+			<ComponentShowcase
+				title="Basic Checkbox"
+				code={`<div class="checkbox-group">
+  <input
+    id="terms"
+    type="checkbox"
+    class="checkbox"
+  />
+  <label class="checkbox-label" for="terms">
+    I agree to the terms and conditions
+  </label>
+</div>`}
+			>
+				<div class="checkbox-group">
+					<input id="terms" type="checkbox" class="checkbox" />
+					<label class="checkbox-label" for="terms"> I agree to the terms and conditions </label>
+				</div>
+			</ComponentShowcase>
+
+			<ComponentShowcase
+				title="Multiple Checkboxes"
+				code={`<div class="form-group">
+  <label class="form-label">
+    Select your interests
+  </label>
+  <div class="space-y-2">
+    <div class="checkbox-group">
+      <input id="sports" type="checkbox" class="checkbox" checked />
+      <label class="checkbox-label" for="sports">Sports</label>
+    </div>
+    <div class="checkbox-group">
+      <input id="music" type="checkbox" class="checkbox" />
+      <label class="checkbox-label" for="music">Music</label>
+    </div>
+    <div class="checkbox-group">
+      <input id="travel" type="checkbox" class="checkbox" checked />
+      <label class="checkbox-label" for="travel">Travel</label>
+    </div>
+  </div>
+</div>`}
+			>
+				<div class="form-group">
+					<label class="form-label">Select your interests</label>
+					<div class="space-y-2">
+						<div class="checkbox-group">
+							<input id="sports" type="checkbox" class="checkbox" checked />
+							<label class="checkbox-label" for="sports">Sports</label>
+						</div>
+						<div class="checkbox-group">
+							<input id="music" type="checkbox" class="checkbox" />
+							<label class="checkbox-label" for="music">Music</label>
+						</div>
+						<div class="checkbox-group">
+							<input id="travel" type="checkbox" class="checkbox" checked />
+							<label class="checkbox-label" for="travel">Travel</label>
+						</div>
+					</div>
 				</div>
 			</ComponentShowcase>
 		</div>

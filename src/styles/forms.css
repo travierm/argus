@@ -140,4 +140,71 @@
 	.textarea-lg {
 		min-height: 8rem;
 	}
+
+	/* Checkbox Styles */
+	.checkbox {
+		/* Layout */
+		@apply h-4 w-4;
+		flex-shrink: 0;
+
+		/* Appearance */
+		@apply cursor-pointer appearance-none rounded-md border-2 border-neutral-300 bg-white;
+		@apply dark:border-neutral-600 dark:bg-neutral-800;
+		transition: all 0.2s ease;
+
+		/* Focus */
+		&:focus {
+			outline: none;
+			box-shadow: 0 0 0 2px var(--color-primary);
+		}
+
+		/* Checked State */
+		&:checked {
+			border-color: var(--color-primary);
+			background-color: var(--color-primary);
+			background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+			background-size: 100% 100%;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+
+		/* Disabled */
+		&:disabled {
+			@apply cursor-not-allowed bg-neutral-100 dark:bg-neutral-900;
+			opacity: 0.6;
+		}
+
+		/* Disabled + Checked */
+		&:disabled:checked {
+			@apply border-neutral-400 bg-neutral-400 dark:border-neutral-600 dark:bg-neutral-600;
+		}
+	}
+
+	/* Checkbox Error State */
+	.checkbox-error {
+		@apply border-red-500 dark:border-red-400;
+
+		&:focus {
+			box-shadow: 0 0 0 2px rgb(239 68 68 / 0.5);
+		}
+
+		&:checked {
+			border-color: #dc2626;
+			background-color: #dc2626;
+		}
+	}
+
+	/* Checkbox Group - for label + checkbox combinations */
+	.checkbox-group {
+		@apply flex items-start gap-2;
+	}
+
+	.checkbox-label {
+		@apply cursor-pointer select-none text-sm text-neutral-700 dark:text-neutral-300;
+	}
+
+	.checkbox-label-disabled {
+		@apply cursor-not-allowed text-neutral-500 dark:text-neutral-600;
+		opacity: 0.6;
+	}
 }
