@@ -26,7 +26,7 @@ export async function getBranchActivity(path: string) {
 	};
 
 	const output = execSync(
-		`git for-each-ref --count=10 --sort=-committerdate refs/remotes/ --format='%(refname:short)|%(committerdate:iso)|%(committerdate:relative)|%(committername)'`,
+		`git for-each-ref --count=10 --sort=-committerdate refs/ --format='%(refname:short)|%(committerdate:iso)|%(committerdate:relative)|%(committername)'`,
 		{
 			cwd: path,
 			encoding: 'utf-8'

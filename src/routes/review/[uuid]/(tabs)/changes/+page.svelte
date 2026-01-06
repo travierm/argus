@@ -1,19 +1,18 @@
 <script lang="ts">
-	import parseDiff, { type DiffInfo } from '$lib/diffParser'; // TODO: Probably should move this to the server
+	import parseDiff, { type DiffInfo } from '$lib/diffParser';
 	import { createVirtualizer } from '@tanstack/svelte-virtual';
 	import { onMount, onDestroy, untrack } from 'svelte';
 	import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
-	import FileHeader from './FileHeader.svelte';
-	import HunkDisplay from './HunkDisplay.svelte';
-	import VirtualizedFileContent from './VirtualizedFileContent.svelte';
-	import FileExplorer from './FileExplorer/FileExplorer.svelte';
+	import FileHeader from '$lib/components/review/FileHeader.svelte';
+	import HunkDisplay from '$lib/components/review/HunkDisplay.svelte';
+	import VirtualizedFileContent from '$lib/components/review/VirtualizedFileContent.svelte';
+	import FileExplorer from '$lib/components/review/FileExplorer/FileExplorer.svelte';
 	import ShikiService from '$lib/shikiService';
-	import type { PageProps } from './$types';
-	import BranchReviewForm from '../../../views/BranchReviewForm.svelte';
+	import type { PageData } from './$types';
 
-	let { data, form }: PageProps = $props();
+	let { data }: { data: PageData } = $props();
 
 	// Check if debug mode is enabled via query param
 	const isDebugMode = $derived(page.url.searchParams.has('debug'));
@@ -56,12 +55,12 @@
 		}
 	});
 
-	// Parse diff when form data is available
+	// Parse diff when data is available
 	$effect(() => {
-		if (form?.diff) {
+		if (data?.diff) {
 			isLoading = true;
 			const startTime = performance.now();
-			const parsedDiffs = parseDiff.parse(form.diff);
+			const parsedDiffs = parseDiff.parse(data.diff);
 			parseTime = performance.now() - startTime;
 
 			// Update diffs and expandedFiles
@@ -113,13 +112,29 @@
 			const hunk = diff.hunks[hunkIdx];
 			const hunkMap = new SvelteMap<number, string>();
 
-			for (let changeIdx = 0; changeIdx < hunk.changes.length; changeIdx++) {
-				const change = hunk.changes[changeIdx];
-				try {
-					const highlighted = await shiki.highlight(change.content, fileExt);
-					hunkMap.set(changeIdx, highlighted);
-				} catch (error) {
-					console.error('Error highlighting line:', error);
+			// Collect all lines in the hunk for context-aware highlighting
+			const hunkContent = hunk.changes.map((c) => c.content).join('\n');
+
+			try {
+				// Highlight the entire hunk at once to preserve context
+				const highlighted = await shiki.highlight(hunkContent, fileExt);
+				const highlightedLines = highlighted.split('\n');
+
+				// Map each highlighted line back to its change
+				for (let changeIdx = 0; changeIdx < hunk.changes.length; changeIdx++) {
+					hunkMap.set(changeIdx, highlightedLines[changeIdx] || '');
+				}
+			} catch (error) {
+				console.error('Error highlighting hunk:', error);
+				// Fallback to individual line highlighting
+				for (let changeIdx = 0; changeIdx < hunk.changes.length; changeIdx++) {
+					const change = hunk.changes[changeIdx];
+					try {
+						const highlighted = await shiki.highlight(change.content, fileExt);
+						hunkMap.set(changeIdx, highlighted);
+					} catch (error) {
+						console.error('Error highlighting line:', error);
+					}
 				}
 			}
 
@@ -222,11 +237,11 @@
 	}
 </script>
 
-<div class="flex h-screen flex-col">
+<div class="flex h-full flex-col">
 	<!-- Header -->
-	<div class="sticky top-0 z-10 flex flex-col gap-4 border-b border-[#30363d] px-4 py-2">
-		<div class="flex items-center justify-end">
-			<div class="flex items-center gap-4 pt-4 text-sm text-[#8b949e]">
+	<div class="sticky top-0 z-10 flex flex-col gap-4 border-b">
+		<div class="flex items-center justify-end pt-4 pr-8 pb-2">
+			<div class="flex items-center gap-4 text-sm">
 				{#if !isLoading}
 					<span>{diffs.length} file{diffs.length !== 1 ? 's' : ''} changed</span>
 					<button
@@ -247,15 +262,13 @@
 								}, 0);
 							}
 						}}
-						class="rounded border border-[#30363d] px-3 py-1 text-xs transition-colors hover:bg-[#30363d]"
+						class="rounded border px-3 py-1 text-xs transition-colors hover:bg-[#30363d]"
 					>
 						{expandedFiles.size === diffs.length ? 'Collapse All' : 'Expand All'}
 					</button>
 				{/if}
 			</div>
 		</div>
-
-		<!-- Review Form -->
 	</div>
 
 	<!-- Main Content: File Explorer + Diff View -->
@@ -271,14 +284,12 @@
 		<div class="flex-1 overflow-auto p-5" bind:this={scrollElement}>
 			{#if isLoading}
 				<div class="flex h-full flex-col items-center justify-center gap-5">
-					<div
-						class="h-10 w-10 animate-spin rounded-full border-[3px] border-[#30363d] border-t-[#58a6ff]"
-					></div>
+					<div class="h-10 w-10 animate-spin rounded-full border-[3px] border-t-[#58a6ff]"></div>
 					<p class="text-sm text-[#8b949e]">Parsing diff in background...</p>
 				</div>
 			{:else if diffs.length === 0}
 				<div class="flex h-full flex-col items-center justify-center gap-5">
-					<p class="text-lg text-[#8b949e]">Select a repository and branch to view the diff</p>
+					<p class="text-lg text-[#8b949e]">No changes found</p>
 				</div>
 			{:else if virtualizer && $virtualizer}
 				<div class="relative w-full" style="height: {$virtualizer.getTotalSize()}px;">
@@ -293,9 +304,7 @@
 							data-index={virtualItem.index}
 							bind:this={virtualItemEls[virtualItem.index]}
 						>
-							<div
-								class="overflow-hidden rounded-md border border-[#30363d] bg-[#161b22] contain-[layout_style_paint]"
-							>
+							<div class="overflow-hidden rounded-md border contain-[layout_style_paint]">
 								<FileHeader
 									{diff}
 									{isExpanded}
@@ -331,9 +340,7 @@
 
 	<!-- Debug Performance Banner -->
 	{#if isDebugMode}
-		<div
-			class="fixed right-0 bottom-0 left-0 z-50 border-t border-[#30363d] bg-[#161b22] px-4 py-3 shadow-lg"
-		>
+		<div class="fixed right-0 bottom-0 left-0 z-50 border-t px-4 py-3 shadow-lg">
 			<div class="flex items-center justify-between">
 				<div class="flex items-center gap-6 text-sm">
 					<span class="font-semibold text-[#58a6ff]">Performance Metrics</span>
@@ -379,7 +386,7 @@
 							: page.url.pathname;
 						goto(newUrl, { replaceState: true, noScroll: true });
 					}}
-					class="rounded border border-[#30363d] bg-[#21262d] px-3 py-1 text-xs text-[#8b949e] transition-colors hover:bg-[#30363d] hover:text-[#e6edf3]"
+					class="rounded border px-3 py-1 text-xs transition-colors hover:bg-[#30363d] hover:text-[#e6edf3]"
 				>
 					Hide Debug
 				</button>

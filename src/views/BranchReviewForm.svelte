@@ -53,13 +53,13 @@
 
 <form method="POST" action="/review" class="flex items-end gap-3">
 	<div class="flex flex-col gap-1.5">
-		<label for="repo" class="text-xs font-medium text-[#8b949e]">Repository</label>
+		<label for="repo" class="text-xs font-medium text-gh-fg-muted">Repository</label>
 		<select
 			id="repo"
 			name="repo"
 			bind:value={selectedRepo}
 			onchange={handleRepoChange}
-			class="rounded border border-[#30363d] px-3 py-1.5 text-sm text-[#f0f6fc] transition-colors hover:border-[#58a6ff] focus:border-[#58a6ff] focus:outline-none"
+			class="rounded border border-gh-border-default px-3 py-1.5 text-sm text-gh-fg-onEmphasis transition-colors hover:border-gh-accent-fg focus:border-gh-accent-fg focus:outline-none"
 		>
 			<option value="" disabled>Select a repo</option>
 			{#each repos as repo (repo.name)}
@@ -69,13 +69,13 @@
 	</div>
 
 	<div class="flex flex-col gap-1.5">
-		<label for="branch" class="min-w-[168px] text-xs font-medium text-[#8b949e]">Branch</label>
+		<label for="branch" class="min-w-[168px] text-xs font-medium text-gh-fg-muted">Branch</label>
 		<select
 			id="branch"
 			name="branch"
 			bind:value={selectedBranch}
 			disabled={!selectedRepo || loading}
-			class="rounded border border-[#30363d] px-3 py-1.5 text-sm text-[#f0f6fc] transition-colors hover:border-[#58a6ff] focus:border-[#58a6ff] focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+			class="rounded border border-gh-border-default px-3 py-1.5 text-sm text-gh-fg-onEmphasis transition-colors hover:border-gh-accent-fg focus:border-gh-accent-fg focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 		>
 			{#if loading}
 				<option>Loading branches...</option>
@@ -93,7 +93,7 @@
 	<button
 		type="submit"
 		disabled={!selectedRepo || !selectedBranch}
-		class="rounded border border-[#30363d] bg-[#238636] px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-[#2ea043] disabled:cursor-not-allowed disabled:bg-[#21262d] disabled:text-[#6e7681]"
+		class="rounded border border-gh-border-default bg-gh-success-emphasis px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-gh-success-emphasis-hover disabled:cursor-not-allowed disabled:bg-gh-border-muted disabled:text-gh-fg-subtle"
 	>
 		Review Code
 	</button>

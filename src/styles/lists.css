@@ -29,7 +29,7 @@
 
 	/* List with dividers */
 	.list-divided {
-		@apply divide-y divide-neutral-200 space-y-0 dark:divide-neutral-700;
+		@apply space-y-0 divide-y divide-neutral-200 dark:divide-neutral-700;
 	}
 
 	.list-divided > li {

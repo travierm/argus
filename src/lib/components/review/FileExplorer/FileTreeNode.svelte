@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { TreeNode } from './fileTreeUtils';
-	import { getDiffTypeColor } from '../diffViewerUtils';
+	import { getDiffTypeColor } from '$lib/components/review/diffViewerUtils';
 	import {
 		ChevronDown,
 		FileDiff,
@@ -46,20 +46,20 @@
 		{#if child.type === 'folder'}
 			<button
 				onclick={() => onToggleFolder(child.path)}
-				class="group flex w-full items-center gap-1 py-0.5 pr-2 pl-1 text-left text-sm transition-colors hover:bg-[#21262d]"
+				class="group flex w-full items-center gap-1 py-0.5 pr-2 pl-1 text-left text-sm transition-colors hover-bg"
 				style="padding-left: {depth * 12 + 4}px"
 			>
 				<div class="shrink-0">
 					<ChevronDown
 						size={16}
-						class="text-[#8b949e] 
+						class="
              transition-transform duration-200 {childCollapsed ? '-rotate-90' : ''}"
 					/>
 				</div>
 				<div class="shrink-0">
-					<Folder size={16} class="text-[#8b949e]" />
+					<Folder size={16} />
 				</div>
-				<span class="truncate text-[#e6edf3]">{child.name}</span>
+				<span class="truncate">{child.name}</span>
 			</button>
 
 			{#if !childCollapsed}
@@ -71,7 +71,7 @@
 
 			<button
 				onclick={() => child.index !== undefined && onFileClick(child.index)}
-				class="group flex w-full items-center gap-1.5 py-0.5 pr-2 pl-1 text-left transition-colors hover:bg-[#21262d]"
+				class="group hover-bg flex w-full items-center gap-1.5 py-0.5 pr-2 pl-1 text-left transition-colors"
 				style="padding-left: {depth * 12 + 20}px"
 			>
 				<div class="shrink-0">
@@ -79,12 +79,12 @@
 				</div>
 				{#if child.highlight}
 					<!-- Search results with highlights -->
-					<span class="truncate text-sm text-[#e6edf3]">
+					<span class="truncate text-sm">
 						{@html child.highlight}
 					</span>
 				{:else}
 					<!-- Regular file name -->
-					<span class="truncate text-sm text-[#e6edf3]">{child.name}</span>
+					<span class="truncate text-sm">{child.name}</span>
 				{/if}
 			</button>
 		{/if}
